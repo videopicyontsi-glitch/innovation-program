@@ -238,12 +238,12 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:32px;font-size
   <div class="nav-inner">
     <div class="nav-logo">🚀 תוכנית חדשנות</div>
     <div class="nav-links">
-      <a onclick="scrollTo('overview')" class="active">סקירה</a>
-      <a onclick="scrollTo('phases')">שלבים</a>
-      <a onclick="scrollTo('groups')">קבוצות</a>
-      <a onclick="scrollTo('teams')">צוותי חדשנות</a>
-      <a onclick="scrollTo('sessions')">30 מפגשים</a>
-      <a onclick="scrollTo('products')">דוגמאות</a>
+      <a onclick="navTo('overview')" class="active">סקירה</a>
+      <a onclick="navTo('phases')">שלבים</a>
+      <a onclick="navTo('groups')">קבוצות</a>
+      <a onclick="navTo('teams')">צוותי חדשנות</a>
+      <a onclick="navTo('sessions')">30 מפגשים</a>
+      <a onclick="navTo('products')">דוגמאות</a>
       <a onclick="openReport()" style="background:#0f172a;color:white;border-radius:8px;">📊 דוח התקדמות</a>
     </div>
   </div>
@@ -449,65 +449,65 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:32px;font-size
 
     <div class="group-card" style="border-color:#bfdbfe;">
       <div class="group-icon">🔬</div>
-      <div class="group-name" style="color:#1e40af;">חקר מדעי</div>
-      <div class="group-desc">פיתוח מיומנויות מחקר, ניסוי, ניתוח נתונים וסקנות. הבנת שיטת המדע כדרך חיים.</div>
+      <div class="group-name" style="color:#1e40af;">חקר מדעי + פרודאקט מנג'מנט</div>
+      <div class="group-desc">שיטת המחקר המדעי לצד חשיבת מוצר: ניסויים, ניתוח נתונים, הגדרת בעיות משתמש ובניית Roadmap — מדע ויזמות יחד.</div>
       <div class="group-tools">
-        <span class="tool-tag" style="background:#dbeafe;color:#1e40af;">ניסויים</span>
-        <span class="tool-tag" style="background:#dbeafe;color:#1e40af;">Excel / Python</span>
-        <span class="tool-tag" style="background:#dbeafe;color:#1e40af;">סטטיסטיקה</span>
-        <span class="tool-tag" style="background:#dbeafe;color:#1e40af;">כתיבה מדעית</span>
+        <span class="tool-tag" style="background:#dbeafe;color:#1e40af;">ניסויים מדעיים</span>
+        <span class="tool-tag" style="background:#dbeafe;color:#1e40af;">User Research</span>
+        <span class="tool-tag" style="background:#dbeafe;color:#1e40af;">ניתוח נתונים</span>
+        <span class="tool-tag" style="background:#dbeafe;color:#1e40af;">Product Roadmap</span>
       </div>
       <div class="mentor-badge">
         <div class="mentor-avatar" style="background:#dbeafe;color:#1e40af;">👩‍🔬</div>
-        <div class="mentor-info"><strong>מנחה א׳</strong><span style="color:var(--gray);">מדען / חוקר</span></div>
+        <div class="mentor-info"><strong>מוריה</strong><span style="color:var(--gray);">חקר + פרודאקט מנג'מנט</span></div>
       </div>
     </div>
 
     <div class="group-card" style="border-color:#c4b5fd;">
       <div class="group-icon">🖨️</div>
       <div class="group-name" style="color:#5b21b6;">מידול והדפסה תלת מימד</div>
-      <div class="group-desc">עיצוב ובניית עולמות ואובייקטים דיגיטליים, הדפסה ואבטיפוס פיזי של רעיונות.</div>
+      <div class="group-desc">עיצוב ואבטיפוס פיזי — מהרעיון לחלק מוחשי ביד. המייקרס של הקבוצה בונים את המוצר שכולם תכננו.</div>
       <div class="group-tools">
         <span class="tool-tag" style="background:#ede9fe;color:#5b21b6;">Tinkercad</span>
         <span class="tool-tag" style="background:#ede9fe;color:#5b21b6;">Fusion 360</span>
         <span class="tool-tag" style="background:#ede9fe;color:#5b21b6;">מדפסת 3D</span>
-        <span class="tool-tag" style="background:#ede9fe;color:#5b21b6;">עיצוב מוצר</span>
+        <span class="tool-tag" style="background:#ede9fe;color:#5b21b6;">אבטיפוס פיזי</span>
       </div>
       <div class="mentor-badge">
         <div class="mentor-avatar" style="background:#ede9fe;color:#5b21b6;">👨‍🎨</div>
-        <div class="mentor-info"><strong>מנחה ב׳</strong><span style="color:var(--gray);">מהנדס עיצוב</span></div>
+        <div class="mentor-info"><strong>ציליק</strong><span style="color:var(--gray);">מידול ועיצוב תעשייתי</span></div>
       </div>
     </div>
 
     <div class="group-card" style="border-color:#fbcfe8;">
       <div class="group-icon">🤖</div>
       <div class="group-name" style="color:#9d174d;">בינה מלאכותית</div>
-      <div class="group-desc">הבנת עולם ה-AI, שימוש בכלים, בניית אפליקציות חכמות ואוטומציות.</div>
+      <div class="group-desc">Claude ו-NotebookLM להבנה רחבה, ואז בניית כלים אמיתיים עם Claude Code — ה-AI של הצוות הופך לשכבת הטכנולוגיה של המוצר.</div>
       <div class="group-tools">
-        <span class="tool-tag" style="background:#fce7f3;color:#9d174d;">ChatGPT API</span>
-        <span class="tool-tag" style="background:#fce7f3;color:#9d174d;">Python</span>
+        <span class="tool-tag" style="background:#fce7f3;color:#9d174d;">Claude.ai</span>
+        <span class="tool-tag" style="background:#fce7f3;color:#9d174d;">NotebookLM</span>
+        <span class="tool-tag" style="background:#fce7f3;color:#9d174d;">Claude Code</span>
         <span class="tool-tag" style="background:#fce7f3;color:#9d174d;">Teachable Machine</span>
-        <span class="tool-tag" style="background:#fce7f3;color:#9d174d;">Prompt Engineering</span>
       </div>
       <div class="mentor-badge">
-        <div class="mentor-avatar" style="background:#fce7f3;color:#9d174d;">👩‍💻</div>
-        <div class="mentor-info"><strong>מנחה ג׳</strong><span style="color:var(--gray);">מהנדס/ת AI</span></div>
+        <div class="mentor-avatar" style="background:#fce7f3;color:#9d174d;">👨‍💻</div>
+        <div class="mentor-info"><strong>יהונתן</strong><span style="color:var(--gray);">AI ובניית כלים</span></div>
       </div>
     </div>
 
-    <div class="group-card" style="border-color:#fed7aa;">
-      <div class="group-icon">📦</div>
-      <div class="group-name" style="color:#9a3412;">ניהול מוצר</div>
-      <div class="group-desc">חשיבה יזמית, פיתוח מוצר, UX, מחקר שוק, מודלים עסקיים ויכולת הצגה.</div>
+    <div class="group-card" style="border-color:#a7f3d0;">
+      <div class="group-icon">💼</div>
+      <div class="group-name" style="color:#064e3b;">יזמות ועסקים</div>
+      <div class="group-desc">חינוך פיננסי, חקר שוק, ניתוח מתחרים, היתכנות כלכלית ושיווק דיגיטלי — הם הופכים את הרעיון לעסק שיכול לחיות.</div>
       <div class="group-tools">
-        <span class="tool-tag" style="background:#ffedd5;color:#9a3412;">Figma</span>
-        <span class="tool-tag" style="background:#ffedd5;color:#9a3412;">Lean Canvas</span>
-        <span class="tool-tag" style="background:#ffedd5;color:#9a3412;">User Interviews</span>
-        <span class="tool-tag" style="background:#ffedd5;color:#9a3412;">Pitch Deck</span>
+        <span class="tool-tag" style="background:#d1fae5;color:#064e3b;">Business Model Canvas</span>
+        <span class="tool-tag" style="background:#d1fae5;color:#064e3b;">חקר שוק</span>
+        <span class="tool-tag" style="background:#d1fae5;color:#064e3b;">שיווק דיגיטלי</span>
+        <span class="tool-tag" style="background:#d1fae5;color:#064e3b;">היתכנות כלכלית</span>
       </div>
       <div class="mentor-badge">
-        <div class="mentor-avatar" style="background:#ffedd5;color:#9a3412;">👨‍💼</div>
-        <div class="mentor-info"><strong>מנחה ד׳</strong><span style="color:var(--gray);">מנהל מוצר בכיר</span></div>
+        <div class="mentor-avatar" style="background:#d1fae5;color:#064e3b;">👩‍💼</div>
+        <div class="mentor-info"><strong>חירואי חן</strong><span style="color:var(--gray);">יזמות ועסקים</span></div>
       </div>
     </div>
 
@@ -635,57 +635,45 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:32px;font-size
   <div class="examples-grid">
 
     <div class="example-card">
-      <span class="cat" style="background:#dbeafe;color:#1e40af;">🔬 חקר + AI</span>
-      <h3>מכשיר בדיקת איכות אוויר חכם</h3>
-      <p>מכשיר IoT שמנטר זיהום אוויר ומשתמש ב-AI לניבוי בעיות בריאותיות — עם אפליקציה ואזהרות אוטומטיות</p>
-      <div class="tags">
-        <span class="tag">חיישנים</span><span class="tag">Python</span><span class="tag">SaaS</span><span class="tag">בריאות</span>
-      </div>
+      <span class="cat" style="background:#dcfce7;color:#14532d;">🤝 כל 4 התחומים</span>
+      <h3>עציץ חכם למשרד</h3>
+      <p>גוף מודפס בתלת מימד עם חיישן לחות, AI שמנתח מתי להשקות ומשלח הודעה לנייד — חקר מדעי תומך בניסוי, יזמות מכרת לחברות</p>
+      <div class="tags"><span class="tag">פיזי + דיגיטלי</span><span class="tag">IoT</span><span class="tag">B2B</span><span class="tag">משרדים</span></div>
     </div>
 
     <div class="example-card">
-      <span class="cat" style="background:#ede9fe;color:#5b21b6;">🖨️ תלת מימד + מוצר</span>
-      <h3>עזרים לימודיים מותאמים אישית</h3>
-      <p>הדפסת עזרים פיזיים מותאמים לתלמידים עם לקויות למידה — עסק B2B לבתי ספר</p>
-      <div class="tags">
-        <span class="tag">הדפסה</span><span class="tag">חינוך</span><span class="tag">B2B</span><span class="tag">נגישות</span>
-      </div>
+      <span class="cat" style="background:#ede9fe;color:#5b21b6;">🖨️ תלת מימד + 🤖 AI</span>
+      <h3>ערכת STEM עם מדריך AI</h3>
+      <p>ערכת ניסויים מודפסת בתלת מימד + QR שפותח NotebookLM שמדריך את הילד — מכירה בצורת מנוי או חד פעמי</p>
+      <div class="tags"><span class="tag">מוצר פיזי</span><span class="tag">ילדים</span><span class="tag">STEM</span><span class="tag">D2C</span></div>
     </div>
 
     <div class="example-card">
-      <span class="cat" style="background:#fce7f3;color:#9d174d;">🤖 AI + מוצר</span>
-      <h3>מאמן אישי לשפה</h3>
-      <p>אפליקציה שמשתמשת ב-LLM ל-roleplay שיחות באנגלית — עם מנגנון gamification ומנוי חודשי</p>
-      <div class="tags">
-        <span class="tag">ChatGPT API</span><span class="tag">SaaS</span><span class="tag">חינוך</span><span class="tag">B2C</span>
-      </div>
+      <span class="cat" style="background:#fce7f3;color:#9d174d;">🤖 AI + 💼 יזמות</span>
+      <h3>מאמן ריאיון עבודה</h3>
+      <p>Claude מדמה מראיין, שואל שאלות ונותן פידבק — עם דוח שמשלוחים מייל. שיווק דיגיטלי לבני 18+ שמחפשים עבודה</p>
+      <div class="tags"><span class="tag">Claude API</span><span class="tag">SaaS</span><span class="tag">קריירה</span><span class="tag">B2C</span></div>
     </div>
 
     <div class="example-card">
-      <span class="cat" style="background:#ffedd5;color:#9a3412;">🔬 חקר + תלת מימד</span>
-      <h3>ערכת ניסויים ביתית</h3>
-      <p>ערכה לילדים עם ציוד מודפס בתלת מימד וחוברת ניסויים — מכירה ישירה דרך אתר ואמזון</p>
-      <div class="tags">
-        <span class="tag">E-commerce</span><span class="tag">ילדים</span><span class="tag">STEM</span><span class="tag">D2C</span>
-      </div>
+      <span class="cat" style="background:#dbeafe;color:#1e40af;">🔬 חקר + 🖨️ תלת מימד</span>
+      <h3>אביזר ספורט מותאם אישית</h3>
+      <p>מחקר ביומכני → עיצוב אחיזה/תמיכה מותאמת לשחקן ספציפי → הדפסה → מכירה לקבוצות ספורט נוער</p>
+      <div class="tags"><span class="tag">מוצר פיזי</span><span class="tag">ספורט</span><span class="tag">B2C</span><span class="tag">אישי</span></div>
     </div>
 
     <div class="example-card">
-      <span class="cat" style="background:#dcfce7;color:#14532d;">🤝 כל התחומים</span>
-      <h3>מערכת ניטור בריאות לקשישים</h3>
-      <p>רכיב לביש מודפס בתלת מימד, AI שמנתח נתונים, מחקר רפואי — ומנהל מוצר שמוביל את המכירה לבתי אבות</p>
-      <div class="tags">
-        <span class="tag">IoT</span><span class="tag">בריאות</span><span class="tag">B2B</span><span class="tag">Wearable</span>
-      </div>
+      <span class="cat" style="background:#d1fae5;color:#064e3b;">💼 יזמות + 🤖 AI</span>
+      <h3>בוט שיווקי לעסקים קטנים</h3>
+      <p>Claude Code בונה בוט שמייצר פוסטים לאינסטגרם, מציע מחירים ומנהל לוח תוכן — שיווק לעסקים קטנים בשכר טרחה חודשי</p>
+      <div class="tags"><span class="tag">Claude Code</span><span class="tag">שיווק</span><span class="tag">B2B</span><span class="tag">SaaS</span></div>
     </div>
 
     <div class="example-card">
-      <span class="cat" style="background:#fce7f3;color:#9d174d;">🤖 AI + חקר</span>
-      <h3>כלי אבחון צמחים חכם</h3>
-      <p>צילום עלה → AI מזהה מחלה → המלצה על טיפול. שיווק לחקלאים ולגנים</p>
-      <div class="tags">
-        <span class="tag">Computer Vision</span><span class="tag">חקלאות</span><span class="tag">SaaS</span>
-      </div>
+      <span class="cat" style="background:#dcfce7;color:#14532d;">🤝 כל 4 התחומים</span>
+      <h3>מזין חיות חכם</h3>
+      <p>גוף מודפס בתלת מימד + AI שמזהה מתי החיה רעבה + מחקר על תזונה + יזמות מוכרת לבעלי כלבים — מוצר שאפשר לגעת בו ולהשתמש בו</p>
+      <div class="tags"><span class="tag">פיזי + דיגיטלי</span><span class="tag">חיות מחמד</span><span class="tag">IoT</span><span class="tag">D2C</span></div>
     </div>
 
   </div>
@@ -973,8 +961,8 @@ const LP = {
 function getLessonPlan(n, group) {
   if (!LP[n]) return null;
   if (LP[n].all) return LP[n].all;
-  const key = group==='ai' ? 'ai' : group==='3d' ? '3d' : group==='pm' ? 'pm' : group==='biz' ? 'biz' : 'sci';
-  return LP[n][key] || LP[n].sci || null;
+  const key = group==='ai' ? 'ai' : group==='3d' ? '3d' : group==='biz' ? 'biz' : 'sci';
+  return LP[n][key] || LP[n].pm || LP[n].sci || null;
 }
 
 const SESSIONS = [
@@ -1076,17 +1064,16 @@ const SESSIONS = [
    }},
 
   // ── Phase 2 ──────────────────────────────────────────────────────────────
-  {n:9,phase:2,title:'קבוצות מומחיות חדשות — מחויבות ועומק',color:'#7c3aed',bg:'#ede9fe',
-   goals:['בניית קבוצת מומחיות','חוזה קבוצתי חדש','הגדרת יעדים לשלב 2'],
-   activities:['כינוס קבוצות המומחיות','מפת יכולות קבוצתית','תכנון לוח זמנים'],
-   example:'📋 כל קבוצה בונה "מפת כישורים" + בוחרת תחום מחקר/פיתוח',
-   tools:['Miro','Google Docs'],group:'קבוצות מומחיות',
+  {n:9,phase:2,title:'מיני פרויקט קבוצתי — תרגול שיתוף פעולה 🏆',color:'#7c3aed',bg:'#ede9fe',
+   goals:['הצוות החדש עובד ביחד בפעם הראשונה','חלוקת תפקידים בין 4 התחומים','תוצר משותף תוך מפגש אחד'],
+   activities:['כינוס צוות החדשנות (8 תלמידים מ-4 תחומים)','אתגר: "בנו פרוטוטייפ לבעיה שבחרתם — עד סוף המפגש"','כל חבר תורם מהתחום שלו','הצגה והפקת לקחים על שיתוף פעולה'],
+   example:'💡 כל תחום תורם: המחקר מגדיר הבעיה, ה-AI בונה כלי, תלת מימד מדפיס אבטיפוס, יזמות מחשבת מחיר',
+   tools:['Jamboard','Claude.ai','Tinkercad','Google Slides'],group:'צוותי חדשנות',milestone:true,
    domainNotes:{
-     sci:'🔬 בחירת שאלת מחקר מרכזית לשלב 2 + Research Design',
-     d3:'🖨️ מבוא Fusion 360 + בחירת פרויקט עם מנגנון',
-     ai:'🤖 Teachable Machine + מבוא ל-API. בניית מודל AI ראשוני',
-     pm:'📦 Product Strategy + OKRs + בניית Roadmap',
-     biz:'💼 Business Model Canvas מלא + בחירת הרעיון העסקי לשלב 2'
+     sci:'🔬 תפקיד: הגדירו את הבעיה בצורה מדויקת. ראיינו משתמש אחד תוך 10 דק׳ וחזרו עם ממצאים',
+     d3:'🖨️ תפקיד: עצבו סקיצה/מודל של חלק פיזי במוצר — גם אם לא מודפס, הציגו שרטוט',
+     ai:'🤖 תפקיד: בנו כלי AI קטן עם Claude Code שמשרת את הצוות — chatbot, מחשבון, או כלי ניתוח',
+     biz:'💼 תפקיד: חשבו על 3 לקוחות אפשריים, בדקו מחיר שיהיו מוכנים לשלם, הכינו שקף אחד של המודל העסקי'
    }},
 
   {n:10,phase:2,title:'צוותי חדשנות — מפגש ראשון 🤝',color:'#7c3aed',bg:'#ede9fe',
@@ -1227,11 +1214,10 @@ const SESSIONS = [
 const phaseColors = {1:'#2563eb',2:'#7c3aed',3:'#db2777'};
 const phaseNames = {1:'שלב 1: גילוי',2:'שלב 2: התמחות',3:'שלב 3: פיתוח מוצר'};
 const DOMAINS = [
-  {key:'sci', label:'🔬 חקר מדעי',          instructor:'',          activeClass:'active-sci', color:'#2563eb'},
-  {key:'3d',  label:'🖨️ תלת מימד',           instructor:'ציליק',     activeClass:'active-3d',  color:'#7c3aed'},
-  {key:'ai',  label:'🤖 AI',                 instructor:'יהונתן',    activeClass:'active-ai',  color:'#db2777'},
-  {key:'pm',  label:'📦 פרודאקט מנג\'מנט',   instructor:'מוריה',     activeClass:'active-pm',  color:'#ea580c'},
-  {key:'biz', label:'💼 יזמות ועסקים',        instructor:'חירואי חן', activeClass:'active-biz', color:'#059669'},
+  {key:'sci', label:'🔬 חקר + פרודאקט', instructor:'מוריה',     activeClass:'active-sci', color:'#2563eb'},
+  {key:'3d',  label:'🖨️ תלת מימד',      instructor:'ציליק',     activeClass:'active-3d',  color:'#7c3aed'},
+  {key:'ai',  label:'🤖 AI',            instructor:'יהונתן',    activeClass:'active-ai',  color:'#db2777'},
+  {key:'biz', label:'💼 יזמות ועסקים',  instructor:'חירואי חן', activeClass:'active-biz', color:'#059669'},
 ];
 let activeDomain = 'ai';
 
@@ -1260,7 +1246,16 @@ function setDomain(key) {
 
 function getDomainNoteHtml(s) {
   if (!s.domainNotes) return '';
-  const note = s.domainNotes[activeDomain] || s.domainNotes.all || '';
+  // sci tab shows combined sci+pm notes
+  let note = '';
+  if (activeDomain === 'sci') {
+    const sciNote = s.domainNotes['sci'] || '';
+    const pmNote  = s.domainNotes['pm']  || '';
+    note = sciNote && pmNote ? sciNote + '<br><small style="opacity:.75">' + pmNote + '</small>'
+         : sciNote || pmNote || s.domainNotes.all || '';
+  } else {
+    note = s.domainNotes[activeDomain] || s.domainNotes.all || '';
+  }
   if (!note) return '';
   const d = DOMAINS.find(x=>x.key===activeDomain);
   return `<div style="margin-top:10px;padding:10px 14px;border-radius:10px;border-right:4px solid ${d?.color||'#64748b'};background:#f8fafc;font-size:14px;">${note}</div>`;
@@ -1355,7 +1350,7 @@ function switchTab(tab) {
   renderSessions(tab);
 }
 
-function scrollTo(id) {
+function navTo(id) {
   document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
   document.querySelectorAll('.nav-links a').forEach(a=>{
     a.classList.toggle('active', a.getAttribute('onclick')?.includes(id));
