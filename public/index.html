@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>תוכנית חדשנות | 30 מפגשים</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --blue:#2563eb;--blue-light:#dbeafe;--blue-dark:#1e40af;
+  --purple:#7c3aed;--purple-light:#ede9fe;
+  --green:#16a34a;--green-light:#dcfce7;
+  --orange:#ea580c;--orange-light:#ffedd5;
+  --pink:#db2777;--pink-light:#fce7f3;
+  --gray:#64748b;--gray-light:#f8fafc;--border:#e2e8f0;
+}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.6;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;}
+.nav-logo{font-size:18px;font-weight:800;color:var(--blue);}
+.nav-links{display:flex;gap:4px;}
+.nav-links a{padding:6px 14px;border-radius:8px;font-size:14px;font-weight:600;color:var(--gray);cursor:pointer;text-decoration:none;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{background:var(--blue-light);color:var(--blue);}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#1e40af 0%,#7c3aed 50%,#db2777 100%);color:white;padding:80px 24px 100px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.hero-content{position:relative;max-width:800px;margin:0 auto;}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:6px 20px;font-size:13px;font-weight:600;margin-bottom:20px;}
+.hero h1{font-size:clamp(32px,6vw,64px);font-weight:900;line-height:1.1;margin-bottom:16px;}
+.hero p{font-size:18px;opacity:.9;margin-bottom:40px;max-width:600px;margin-left:auto;margin-right:auto;}
+.hero-stats{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.hero-stat{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:16px;padding:20px 32px;text-align:center;}
+.hero-stat .num{font-size:40px;font-weight:900;line-height:1;}
+.hero-stat .lbl{font-size:13px;opacity:.8;margin-top:4px;}
+
+/* SECTION */
+section{padding:64px 24px;}
+.section-inner{max-width:1200px;margin:0 auto;}
+.section-title{font-size:28px;font-weight:800;margin-bottom:8px;}
+.section-sub{color:var(--gray);margin-bottom:40px;font-size:16px;}
+
+/* PHASES TIMELINE */
+.phases{display:flex;flex-direction:column;gap:0;}
+.phase{display:grid;grid-template-columns:200px 1fr;gap:0;position:relative;}
+.phase::before{content:'';position:absolute;right:196px;top:40px;bottom:0;width:4px;background:var(--border);z-index:0;}
+.phase:last-child::before{display:none;}
+.phase-label{text-align:left;padding:24px 24px 24px 0;position:relative;}
+.phase-dot{width:16px;height:16px;border-radius:50%;border:3px solid white;position:absolute;left:-6px;top:28px;z-index:1;}
+.phase-num{font-size:12px;font-weight:700;color:var(--gray);margin-bottom:4px;}
+.phase-name{font-size:18px;font-weight:800;}
+.phase-sessions{font-size:13px;color:var(--gray);margin-top:2px;}
+.phase-content{padding:16px 0 40px 0;}
+
+/* SESSION CARDS */
+.sessions-grid{display:flex;flex-direction:column;gap:8px;}
+.session-card{background:white;border-radius:12px;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:box-shadow .2s;}
+.session-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1);}
+.session-header{display:flex;align-items:center;gap:12px;padding:14px 16px;}
+.session-num{min-width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:white;}
+.session-title{font-size:15px;font-weight:700;flex:1;}
+.session-meta{font-size:12px;color:var(--gray);}
+.session-toggle{font-size:18px;color:var(--gray);transition:transform .2s;}
+.session-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border);}
+.session-body.open{display:block;}
+.session-body-inner{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;}
+.session-col h4{font-size:13px;font-weight:700;color:var(--gray);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;}
+.session-col ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.session-col ul li{font-size:14px;display:flex;gap:8px;align-items:flex-start;}
+.session-col ul li::before{content:'•';color:currentColor;font-size:16px;line-height:1.4;flex-shrink:0;}
+.example-box{background:var(--gray-light);border-radius:10px;padding:12px;margin-top:12px;}
+.example-box .ex-title{font-size:12px;font-weight:700;color:var(--gray);margin-bottom:6px;}
+.example-item{display:flex;gap:8px;align-items:center;font-size:13px;padding:4px 0;}
+.example-item .icon{font-size:16px;}
+
+/* GROUP STRUCTURE */
+.groups-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+.group-card{background:white;border-radius:16px;border:2px solid var(--border);padding:24px;transition:transform .2s,box-shadow .2s;}
+.group-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.1);}
+.group-icon{font-size:40px;margin-bottom:12px;}
+.group-name{font-size:20px;font-weight:800;margin-bottom:6px;}
+.group-desc{font-size:14px;color:var(--gray);margin-bottom:16px;}
+.group-tools{display:flex;flex-wrap:wrap;gap:6px;}
+.tool-tag{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;}
+.mentor-badge{display:flex;align-items:center;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
+.mentor-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.mentor-info{font-size:13px;}
+.mentor-info strong{display:block;font-weight:700;}
+
+/* TEAMS SECTION */
+.teams-intro{background:white;border-radius:16px;padding:24px;margin-bottom:24px;border:1px solid var(--border);}
+.teams-formula{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;font-size:16px;font-weight:700;margin:20px 0;}
+.teams-formula .plus{font-size:24px;color:var(--gray);}
+.formula-badge{padding:10px 20px;border-radius:12px;color:white;font-weight:800;}
+.teams-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.team-card{background:white;border-radius:12px;border:1px solid var(--border);padding:16px;text-align:center;}
+.team-card .team-num{font-size:28px;font-weight:900;color:var(--blue);}
+.team-card .team-name{font-size:13px;font-weight:700;margin-top:4px;}
+.team-card .team-members{display:flex;justify-content:center;gap:4px;margin-top:10px;flex-wrap:wrap;}
+.member-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;}
+
+/* MILESTONES */
+.milestones{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+.milestone{background:white;border-radius:16px;padding:24px;border:1px solid var(--border);text-align:center;}
+.milestone-icon{font-size:36px;margin-bottom:12px;}
+.milestone-session{font-size:12px;font-weight:700;color:var(--gray);margin-bottom:4px;}
+.milestone-title{font-size:17px;font-weight:800;margin-bottom:8px;}
+.milestone-desc{font-size:13px;color:var(--gray);}
+
+/* PRODUCT EXAMPLES */
+.examples-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+.example-card{background:white;border-radius:16px;padding:24px;border:1px solid var(--border);}
+.example-card .cat{font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:12px;}
+.example-card h3{font-size:17px;font-weight:800;margin-bottom:8px;}
+.example-card p{font-size:14px;color:var(--gray);margin-bottom:16px;}
+.example-card .tags{display:flex;flex-wrap:wrap;gap:6px;}
+.example-card .tag{padding:4px 10px;background:var(--gray-light);border-radius:20px;font-size:12px;color:var(--gray);font-weight:600;}
+
+/* TABS */
+.tabs-bar{display:flex;gap:8px;margin-bottom:24px;overflow-x:auto;padding-bottom:4px;}
+.tab-btn{padding:10px 20px;border-radius:10px;border:none;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s;background:white;border:1px solid var(--border);color:var(--gray);}
+.tab-btn.active{background:var(--blue);color:white;border-color:var(--blue);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* PROGRESS BAR */
+.program-progress{background:white;border-radius:16px;padding:24px;margin-bottom:32px;border:1px solid var(--border);}
+.prog-bar-wrap{background:#e2e8f0;border-radius:50px;height:12px;margin:16px 0;overflow:hidden;display:flex;}
+.prog-seg{height:100%;transition:width .6s;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;}
+.prog-legend{display:flex;gap:16px;flex-wrap:wrap;}
+.prog-item{display:flex;align-items:center;gap:6px;font-size:13px;}
+.prog-dot{width:12px;height:12px;border-radius:3px;}
+
+/* FOOTER */
+footer{background:#1e293b;color:#94a3b8;text-align:center;padding:32px;font-size:14px;}
+
+/* UTILITIES */
+.card{background:white;border-radius:16px;padding:24px;border:1px solid var(--border);}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+.mt-8{margin-top:8px;}
+.mt-16{margin-top:16px;}
+.flex{display:flex;} .gap-8{gap:8px;} .flex-wrap{flex-wrap:wrap;} .items-center{align-items:center;}
+
+/* LESSON PLAN */
+.lesson-btn{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:8px 16px;background:#0f172a;color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;}
+.lesson-btn:hover{background:#1e293b;}
+.lesson-plan{display:none;margin-top:12px;border:2px solid #0f172a;border-radius:12px;overflow:hidden;}
+.lesson-plan.open{display:block;}
+.lp-header{background:#0f172a;color:white;padding:12px 16px;font-size:14px;font-weight:700;}
+.lp-body{background:#f8fafc;}
+.lp-block{padding:14px 16px;border-bottom:1px solid #e2e8f0;}
+.lp-block:last-child{border-bottom:none;}
+.lp-block-title{font-size:12px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.lp-block-title .time{background:#0f172a;color:white;padding:2px 8px;border-radius:20px;font-size:11px;}
+.lp-step{display:flex;gap:10px;margin-bottom:8px;font-size:13px;align-items:flex-start;}
+.lp-step .step-num{min-width:22px;height:22px;border-radius:50%;background:#2563eb;color:white;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.lp-note{background:#fef9c3;border-right:3px solid #eab308;padding:8px 12px;border-radius:0 6px 6px 0;font-size:13px;margin-top:8px;}
+.ai-tag{display:inline-block;background:linear-gradient(135deg,#7c3aed,#db2777);color:white;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:8px;}
+
+/* PROGRESS TRACKER */
+.prog-section{margin-top:14px;border:2px solid #e2e8f0;border-radius:12px;overflow:hidden;}
+.prog-section-header{background:#f8fafc;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;}
+.prog-section-header span{font-size:13px;font-weight:700;color:#374151;}
+.prog-section-body{padding:14px;display:none;}
+.prog-section-body.open{display:block;}
+.status-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.status-label{font-size:13px;font-weight:600;color:#64748b;min-width:80px;}
+.status-btn{padding:5px 12px;border-radius:20px;border:2px solid transparent;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;background:white;}
+.status-btn.s-pending{border-color:#e2e8f0;color:#94a3b8;}
+.status-btn.s-pending.active{background:#f1f5f9;border-color:#94a3b8;color:#374151;}
+.status-btn.s-progress{border-color:#fbbf24;color:#92400e;}
+.status-btn.s-progress.active{background:#fef9c3;border-color:#f59e0b;color:#78350f;}
+.status-btn.s-done{border-color:#86efac;color:#14532d;}
+.status-btn.s-done.active{background:#dcfce7;border-color:#22c55e;color:#14532d;}
+.notes-area{width:100%;min-height:60px;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;resize:vertical;direction:rtl;margin-top:6px;}
+.notes-area:focus{outline:none;border-color:#2563eb;}
+.notes-save-btn{margin-top:6px;padding:6px 14px;background:#2563eb;color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;}
+.notes-save-btn:hover{background:#1e40af;}
+.notes-saved{color:#16a34a;font-size:12px;margin-right:8px;display:none;}
+.domain-prog-row{display:grid;grid-template-columns:100px 1fr 1fr 1fr 1fr;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:13px;}
+.domain-prog-row:last-child{border-bottom:none;}
+
+/* STATUS PILL */
+.status-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.pill-pending{background:#f1f5f9;color:#64748b;}
+.pill-progress{background:#fef9c3;color:#92400e;}
+.pill-done{background:#dcfce7;color:#14532d;}
+
+/* REPORTS PAGE */
+#reportPage{display:none;position:fixed;inset:0;background:white;z-index:200;overflow-y:auto;}
+.report-nav{background:#0f172a;color:white;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+.report-nav h2{font-size:18px;font-weight:800;}
+.report-close{background:rgba(255,255,255,.15);border:none;color:white;padding:6px 16px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;}
+.report-inner{max-width:900px;margin:0 auto;padding:32px 24px;}
+.report-tabs{display:flex;gap:8px;margin-bottom:24px;}
+.report-tab{padding:9px 20px;border-radius:8px;border:2px solid #e2e8f0;background:white;font-size:14px;font-weight:700;cursor:pointer;color:#64748b;}
+.report-tab.active{background:#0f172a;color:white;border-color:#0f172a;}
+.report-section{display:none;}
+.report-section.active{display:block;}
+.report-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px;}
+.report-stat{background:#f8fafc;border-radius:12px;padding:16px;text-align:center;border:1px solid #e2e8f0;}
+.report-stat .rs-num{font-size:32px;font-weight:900;}
+.report-stat .rs-lbl{font-size:12px;color:#64748b;margin-top:4px;}
+.report-phase{background:white;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:16px;overflow:hidden;}
+.report-phase-header{padding:12px 16px;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:space-between;}
+.report-table{width:100%;border-collapse:collapse;font-size:13px;}
+.report-table th{background:#f8fafc;padding:8px 12px;text-align:right;font-weight:700;color:#64748b;border-bottom:1px solid #e2e8f0;}
+.report-table td{padding:8px 12px;border-bottom:1px solid #f1f5f9;vertical-align:top;}
+.report-table tr:last-child td{border-bottom:none;}
+.domain-bar-wrap{background:#e2e8f0;border-radius:50px;height:10px;overflow:hidden;margin-top:4px;}
+.domain-bar{height:100%;border-radius:50px;transition:width .4s;}
+.print-btn{padding:8px 18px;background:#16a34a;color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px;}
+
+/* DOMAIN TABS */
+.domain-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.domain-tab{padding:8px 16px;border-radius:8px;border:2px solid var(--border);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;background:white;color:var(--gray);}
+.domain-tab.active-sci{background:#dbeafe;border-color:#2563eb;color:#1e40af;}
+.domain-tab.active-3d{background:#ede9fe;border-color:#7c3aed;color:#5b21b6;}
+.domain-tab.active-ai{background:#fce7f3;border-color:#db2777;color:#9d174d;}
+.domain-tab.active-pm{background:#ffedd5;border-color:#ea580c;color:#9a3412;}
+
+@media(max-width:768px){
+  .phase{grid-template-columns:1fr;}
+  .phase::before{display:none;}
+  .phase-label{padding-bottom:0;}
+  .session-body-inner{grid-template-columns:1fr;}
+  .hero-stat .num{font-size:28px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">🚀 תוכנית חדשנות</div>
+    <div class="nav-links">
+      <a onclick="scrollTo('overview')" class="active">סקירה</a>
+      <a onclick="scrollTo('phases')">שלבים</a>
+      <a onclick="scrollTo('groups')">קבוצות</a>
+      <a onclick="scrollTo('teams')">צוותי חדשנות</a>
+      <a onclick="scrollTo('sessions')">30 מפגשים</a>
+      <a onclick="scrollTo('products')">דוגמאות</a>
+      <a onclick="openReport()" style="background:#0f172a;color:white;border-radius:8px;">📊 דוח התקדמות</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PASSWORD MODAL -->
+<div id="pwModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:16px;padding:32px;width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);">
+    <div style="font-size:36px;margin-bottom:12px;">🔒</div>
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:6px;">דוח מנהל</h3>
+    <p style="font-size:13px;color:#64748b;margin-bottom:20px;">הכנס סיסמת מנהל כדי לצפות בדוח</p>
+    <input id="pwInput" type="password" placeholder="סיסמה..."
+      style="width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:15px;text-align:center;direction:ltr;box-sizing:border-box;"
+      onkeydown="if(event.key==='Enter')verifyPassword()">
+    <div id="pwErr" style="color:#dc2626;font-size:13px;min-height:20px;margin-top:6px;"></div>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <button onclick="closePwModal()" style="flex:1;padding:10px;border:2px solid #e2e8f0;border-radius:10px;background:white;font-size:14px;cursor:pointer;">ביטול</button>
+      <button onclick="verifyPassword()" style="flex:1;padding:10px;background:#0f172a;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">כניסה</button>
+    </div>
+  </div>
+</div>
+
+<!-- REPORT PAGE -->
+<div id="reportPage">
+  <div class="report-nav">
+    <h2>📊 דוח התקדמות — תוכנית חדשנות</h2>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="print-btn" onclick="window.print()">🖨️ הדפסה</button>
+      <button class="report-close" onclick="closeReport()">✕ סגור</button>
+    </div>
+  </div>
+  <div class="report-inner">
+    <div class="report-tabs">
+      <button class="report-tab active" onclick="switchReportTab('general')">📈 דוח כללי</button>
+      <button class="report-tab" onclick="switchReportTab('domain')">🎯 לפי תחום</button>
+      <button class="report-tab" onclick="switchReportTab('notes')">📝 הערות מורה</button>
+    </div>
+    <!-- General -->
+    <div class="report-section active" id="rep-general">
+      <div class="report-stat-grid" id="rep-stats"></div>
+      <div id="rep-phases"></div>
+    </div>
+    <!-- Domain -->
+    <div class="report-section" id="rep-domain">
+      <div id="rep-domain-content"></div>
+    </div>
+    <!-- Notes -->
+    <div class="report-section" id="rep-notes">
+      <div id="rep-notes-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero" id="overview">
+  <div class="hero-content">
+    <div class="hero-badge">✨ תוכנית חדשנות ויזמות טכנולוגית</div>
+    <h1>מגילוי<br>לפיתוח מוצר</h1>
+    <p>80 תלמידים, 4 תחומי מומחיות, 10 צוותי חדשנות — מסע של 30 מפגשים מהרעיון הראשון ועד המוצר המוכן למכירה</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">30</div><div class="lbl">מפגשים</div></div>
+      <div class="hero-stat"><div class="num">80</div><div class="lbl">תלמידים</div></div>
+      <div class="hero-stat"><div class="num">4</div><div class="lbl">תחומי מומחיות</div></div>
+      <div class="hero-stat"><div class="num">10</div><div class="lbl">צוותי חדשנות</div></div>
+      <div class="hero-stat"><div class="num">4</div><div class="lbl">מנחים מומחים</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRAM OVERVIEW -->
+<section style="background:white;padding:40px 24px;" id="phases">
+<div class="section-inner">
+  <h2 class="section-title">מפת הדרכים</h2>
+  <p class="section-sub">3 שלבים עיקריים לאורך 30 מפגשים של שעתיים כל אחד</p>
+
+  <div class="program-progress card" style="margin-bottom:32px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+      <strong>מסלול התוכנית</strong>
+      <span style="font-size:13px;color:var(--gray);">60 שעות לימוד</span>
+    </div>
+    <div class="prog-bar-wrap">
+      <div class="prog-seg" style="width:26.6%;background:#2563eb;">1-8</div>
+      <div class="prog-seg" style="width:40%;background:#7c3aed;">9-20</div>
+      <div class="prog-seg" style="width:33.4%;background:#db2777;">21-30</div>
+    </div>
+    <div class="prog-legend">
+      <div class="prog-item"><div class="prog-dot" style="background:#2563eb;"></div>שלב 1: גילוי (מפגשים 1–8)</div>
+      <div class="prog-item"><div class="prog-dot" style="background:#7c3aed;"></div>שלב 2: התמחות ושיתוף (9–20)</div>
+      <div class="prog-item"><div class="prog-dot" style="background:#db2777;"></div>שלב 3: פיתוח מוצר (21–30)</div>
+    </div>
+  </div>
+
+  <div class="phases">
+    <!-- Phase 1 -->
+    <div class="phase">
+      <div class="phase-label">
+        <div class="phase-dot" style="background:#2563eb;"></div>
+        <div class="phase-num">שלב 1</div>
+        <div class="phase-name" style="color:#2563eb;">גילוי</div>
+        <div class="phase-sessions">מפגשים 1–8</div>
+        <div class="phase-sessions" style="margin-top:4px;">חודש ראשון</div>
+      </div>
+      <div class="phase-content">
+        <div class="card">
+          <h3 style="margin-bottom:8px;">כל קבוצה מכירה את התחום שלה</h3>
+          <p style="color:var(--gray);font-size:14px;margin-bottom:16px;">80 תלמידים מחולקים ל-4 קבוצות של 20. כל קבוצה לומדת בנפרד את תחום המומחיות שלה — תוך חשיפה לכלים, דוגמאות ומיני פרויקטים.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
+            <div style="background:#dbeafe;border-radius:10px;padding:12px;text-align:center;">
+              <div style="font-size:24px;">🔬</div>
+              <div style="font-weight:700;font-size:14px;margin-top:4px;">קבוצה א׳</div>
+              <div style="font-size:13px;color:#1e40af;">חקר מדעי</div>
+            </div>
+            <div style="background:#ede9fe;border-radius:10px;padding:12px;text-align:center;">
+              <div style="font-size:24px;">🖨️</div>
+              <div style="font-weight:700;font-size:14px;margin-top:4px;">קבוצה ב׳</div>
+              <div style="font-size:13px;color:#5b21b6;">מידול תלת מימד</div>
+            </div>
+            <div style="background:#fce7f3;border-radius:10px;padding:12px;text-align:center;">
+              <div style="font-size:24px;">🤖</div>
+              <div style="font-weight:700;font-size:14px;margin-top:4px;">קבוצה ג׳</div>
+              <div style="font-size:13px;color:#9d174d;">בינה מלאכותית</div>
+            </div>
+            <div style="background:#ffedd5;border-radius:10px;padding:12px;text-align:center;">
+              <div style="font-size:24px;">📦</div>
+              <div style="font-weight:700;font-size:14px;margin-top:4px;">קבוצה ד׳</div>
+              <div style="font-size:13px;color:#9a3412;">ניהול מוצר</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;padding:12px;background:var(--gray-light);border-radius:10px;">
+            <strong style="font-size:13px;">📌 בסוף שלב זה:</strong>
+            <span style="font-size:13px;color:var(--gray);"> כל תלמיד בוחר את התחום שמעניין אותו ביותר ועובר לקבוצת ההתמחות המתאימה.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase">
+      <div class="phase-label">
+        <div class="phase-dot" style="background:#7c3aed;"></div>
+        <div class="phase-num">שלב 2</div>
+        <div class="phase-name" style="color:#7c3aed;">התמחות ושיתוף</div>
+        <div class="phase-sessions">מפגשים 9–20</div>
+      </div>
+      <div class="phase-content">
+        <div class="card">
+          <h3 style="margin-bottom:8px;">למידה עמוקה + צוותי חדשנות</h3>
+          <p style="color:var(--gray);font-size:14px;margin-bottom:16px;">כל תלמיד מתמקצע בתחום הנבחר. בנוסף, נוצרות 10 קבוצות חדשנות חוצות-תחומים — כל קבוצה כוללת 2 תלמידים מכל תחום (8 תלמידים בסך הכול).</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="border:1px solid var(--border);border-radius:10px;padding:14px;">
+              <div style="font-size:13px;font-weight:700;color:var(--gray);margin-bottom:8px;">📚 למידה בקבוצות מומחיות</div>
+              <ul style="list-style:none;font-size:13px;color:var(--gray);display:flex;flex-direction:column;gap:4px;">
+                <li>⬡ פרויקטים מתקדמים בתחום</li>
+                <li>⬡ עבודה עם כלים מקצועיים</li>
+                <li>⬡ פגישות עם מומחים מהתעשייה</li>
+              </ul>
+            </div>
+            <div style="border:1px solid var(--border);border-radius:10px;padding:14px;">
+              <div style="font-size:13px;font-weight:700;color:var(--gray);margin-bottom:8px;">🤝 צוותי חדשנות</div>
+              <ul style="list-style:none;font-size:13px;color:var(--gray);display:flex;flex-direction:column;gap:4px;">
+                <li>⬡ 10 צוותים × 8 תלמידים</li>
+                <li>⬡ גיבוש רעיון ראשוני</li>
+                <li>⬡ ראיון משתמשים ואימות</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase">
+      <div class="phase-label">
+        <div class="phase-dot" style="background:#db2777;"></div>
+        <div class="phase-num">שלב 3</div>
+        <div class="phase-name" style="color:#db2777;">פיתוח מוצר</div>
+        <div class="phase-sessions">מפגשים 21–30</div>
+      </div>
+      <div class="phase-content">
+        <div class="card">
+          <h3 style="margin-bottom:8px;">מרעיון למוצר מוכן לשוק</h3>
+          <p style="color:var(--gray);font-size:14px;margin-bottom:16px;">כל צוות מפתח את המוצר לרמת MVP, בונה מודל עסקי, מכין פיץ׳ ומציג למשקיעים ולהורים ביום הסיום.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span class="badge" style="background:#fce7f3;color:#9d174d;">🏗️ בניית MVP</span>
+            <span class="badge" style="background:#fce7f3;color:#9d174d;">📊 מחקר שוק</span>
+            <span class="badge" style="background:#fce7f3;color:#9d174d;">💰 מודל עסקי</span>
+            <span class="badge" style="background:#fce7f3;color:#9d174d;">🎤 הצגת פיץ׳</span>
+            <span class="badge" style="background:#fce7f3;color:#9d174d;">🏆 יום הדגמה</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- GROUPS -->
+<section id="groups">
+<div class="section-inner">
+  <h2 class="section-title">4 תחומי מומחיות</h2>
+  <p class="section-sub">כל תחום מובל על ידי מנחה מומחה ומעניק לתלמידים כלים ייחודיים</p>
+  <div class="groups-grid">
+
+    <div class="group-card" style="border-color:#bfdbfe;">
+      <div class="group-icon">🔬</div>
+      <div class="group-name" style="color:#1e40af;">חקר מדעי</div>
+      <div class="group-desc">פיתוח מיומנויות מחקר, ניסוי, ניתוח נתונים וסקנות. הבנת שיטת המדע כדרך חיים.</div>
+      <div class="group-tools">
+        <span class="tool-tag" style="background:#dbeafe;color:#1e40af;">ניסויים</span>
+        <span class="tool-tag" style="background:#dbeafe;color:#1e40af;">Excel / Python</span>
+        <span class="tool-tag" style="background:#dbeafe;color:#1e40af;">סטטיסטיקה</span>
+        <span class="tool-tag" style="background:#dbeafe;color:#1e40af;">כתיבה מדעית</span>
+      </div>
+      <div class="mentor-badge">
+        <div class="mentor-avatar" style="background:#dbeafe;color:#1e40af;">👩‍🔬</div>
+        <div class="mentor-info"><strong>מנחה א׳</strong><span style="color:var(--gray);">מדען / חוקר</span></div>
+      </div>
+    </div>
+
+    <div class="group-card" style="border-color:#c4b5fd;">
+      <div class="group-icon">🖨️</div>
+      <div class="group-name" style="color:#5b21b6;">מידול והדפסה תלת מימד</div>
+      <div class="group-desc">עיצוב ובניית עולמות ואובייקטים דיגיטליים, הדפסה ואבטיפוס פיזי של רעיונות.</div>
+      <div class="group-tools">
+        <span class="tool-tag" style="background:#ede9fe;color:#5b21b6;">Tinkercad</span>
+        <span class="tool-tag" style="background:#ede9fe;color:#5b21b6;">Fusion 360</span>
+        <span class="tool-tag" style="background:#ede9fe;color:#5b21b6;">מדפסת 3D</span>
+        <span class="tool-tag" style="background:#ede9fe;color:#5b21b6;">עיצוב מוצר</span>
+      </div>
+      <div class="mentor-badge">
+        <div class="mentor-avatar" style="background:#ede9fe;color:#5b21b6;">👨‍🎨</div>
+        <div class="mentor-info"><strong>מנחה ב׳</strong><span style="color:var(--gray);">מהנדס עיצוב</span></div>
+      </div>
+    </div>
+
+    <div class="group-card" style="border-color:#fbcfe8;">
+      <div class="group-icon">🤖</div>
+      <div class="group-name" style="color:#9d174d;">בינה מלאכותית</div>
+      <div class="group-desc">הבנת עולם ה-AI, שימוש בכלים, בניית אפליקציות חכמות ואוטומציות.</div>
+      <div class="group-tools">
+        <span class="tool-tag" style="background:#fce7f3;color:#9d174d;">ChatGPT API</span>
+        <span class="tool-tag" style="background:#fce7f3;color:#9d174d;">Python</span>
+        <span class="tool-tag" style="background:#fce7f3;color:#9d174d;">Teachable Machine</span>
+        <span class="tool-tag" style="background:#fce7f3;color:#9d174d;">Prompt Engineering</span>
+      </div>
+      <div class="mentor-badge">
+        <div class="mentor-avatar" style="background:#fce7f3;color:#9d174d;">👩‍💻</div>
+        <div class="mentor-info"><strong>מנחה ג׳</strong><span style="color:var(--gray);">מהנדס/ת AI</span></div>
+      </div>
+    </div>
+
+    <div class="group-card" style="border-color:#fed7aa;">
+      <div class="group-icon">📦</div>
+      <div class="group-name" style="color:#9a3412;">ניהול מוצר</div>
+      <div class="group-desc">חשיבה יזמית, פיתוח מוצר, UX, מחקר שוק, מודלים עסקיים ויכולת הצגה.</div>
+      <div class="group-tools">
+        <span class="tool-tag" style="background:#ffedd5;color:#9a3412;">Figma</span>
+        <span class="tool-tag" style="background:#ffedd5;color:#9a3412;">Lean Canvas</span>
+        <span class="tool-tag" style="background:#ffedd5;color:#9a3412;">User Interviews</span>
+        <span class="tool-tag" style="background:#ffedd5;color:#9a3412;">Pitch Deck</span>
+      </div>
+      <div class="mentor-badge">
+        <div class="mentor-avatar" style="background:#ffedd5;color:#9a3412;">👨‍💼</div>
+        <div class="mentor-info"><strong>מנחה ד׳</strong><span style="color:var(--gray);">מנהל מוצר בכיר</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- TEAMS -->
+<section style="background:white;" id="teams">
+<div class="section-inner">
+  <h2 class="section-title">10 צוותי חדשנות</h2>
+  <p class="section-sub">כל צוות מורכב מ-2 תלמידים מכל אחד מ-4 התחומים — 8 תלמידים שמביאים ידע שונה לרעיון אחד</p>
+
+  <div class="teams-intro">
+    <div style="font-size:15px;font-weight:700;margin-bottom:16px;">🧩 נוסחת הצוות</div>
+    <div class="teams-formula">
+      <div class="formula-badge" style="background:#2563eb;">2× חקר מדעי</div>
+      <div class="plus">+</div>
+      <div class="formula-badge" style="background:#7c3aed;">2× תלת מימד</div>
+      <div class="plus">+</div>
+      <div class="formula-badge" style="background:#db2777;">2× AI</div>
+      <div class="plus">+</div>
+      <div class="formula-badge" style="background:#ea580c;">2× מוצר</div>
+      <div class="plus">=</div>
+      <div class="formula-badge" style="background:#16a34a;">צוות חדשנות</div>
+    </div>
+    <p style="text-align:center;color:var(--gray);font-size:14px;">10 צוותות × 8 תלמידים = 80 תלמידים</p>
+  </div>
+
+  <div class="teams-grid">
+    <script>
+    const teamNames = [
+      'רוח החדשנות','גשר הרעיונות','מנועי העתיד','כוכבי הטכנולוגיה','דלת ההזדמנויות',
+      'לב החדשנות','שורשי השינוי','גלי ההשפעה','ציוני הדרך','אופק חדש'
+    ];
+    document.write(teamNames.map((name,i)=>`
+      <div class="team-card">
+        <div class="team-num">${i+1}</div>
+        <div class="team-name">${name}</div>
+        <div class="team-members">
+          <div class="member-dot" style="background:#2563eb;" title="חקר מדעי">מ</div>
+          <div class="member-dot" style="background:#2563eb;" title="חקר מדעי">מ</div>
+          <div class="member-dot" style="background:#7c3aed;" title="תלת מימד">ת</div>
+          <div class="member-dot" style="background:#7c3aed;" title="תלת מימד">ת</div>
+          <div class="member-dot" style="background:#db2777;" title="AI">A</div>
+          <div class="member-dot" style="background:#db2777;" title="AI">A</div>
+          <div class="member-dot" style="background:#ea580c;" title="מוצר">פ</div>
+          <div class="member-dot" style="background:#ea580c;" title="מוצר">פ</div>
+        </div>
+      </div>
+    `).join(''));
+    </script>
+  </div>
+</div>
+</section>
+
+<!-- SESSIONS -->
+<section id="sessions">
+<div class="section-inner">
+  <h2 class="section-title">30 מפגשים — תוכנית מפורטת</h2>
+  <p class="section-sub">לחצו על כל מפגש לפרטים מלאים, מטרות ודוגמאות חיות</p>
+
+  <div class="tabs-bar">
+    <button class="tab-btn active" onclick="switchTab('all')">כל המפגשים</button>
+    <button class="tab-btn" onclick="switchTab('p1')">שלב 1: גילוי (1–8)</button>
+    <button class="tab-btn" onclick="switchTab('p2')">שלב 2: התמחות (9–20)</button>
+    <button class="tab-btn" onclick="switchTab('p3')">שלב 3: מוצר (21–30)</button>
+  </div>
+
+  <div id="sessions-container" class="sessions-grid"></div>
+</div>
+</section>
+
+<!-- MILESTONES -->
+<section style="background:white;">
+<div class="section-inner">
+  <h2 class="section-title">אבני דרך מרכזיות</h2>
+  <p class="section-sub">נקודות ציון שמסמנות את ההתקדמות לאורך התוכנית</p>
+  <div class="milestones">
+    <div class="milestone">
+      <div class="milestone-icon">🎯</div>
+      <div class="milestone-session">מפגש 4</div>
+      <div class="milestone-title">מיני פרויקט ראשון</div>
+      <div class="milestone-desc">כל קבוצה מציגה יצירה קטנה בתחום שלה</div>
+    </div>
+    <div class="milestone">
+      <div class="milestone-icon">🗳️</div>
+      <div class="milestone-session">מפגש 8</div>
+      <div class="milestone-title">בחירת התמחות</div>
+      <div class="milestone-desc">כל תלמיד בוחר את קבוצת המומחיות שלו</div>
+    </div>
+    <div class="milestone">
+      <div class="milestone-icon">💡</div>
+      <div class="milestone-session">מפגש 15</div>
+      <div class="milestone-title">גיבוש רעיון</div>
+      <div class="milestone-desc">כל צוות חדשנות מגיש רעיון ראשוני עם סקיצה</div>
+    </div>
+    <div class="milestone">
+      <div class="milestone-icon">🧪</div>
+      <div class="milestone-session">מפגש 20</div>
+      <div class="milestone-title">אימות רעיון</div>
+      <div class="milestone-desc">ראיונות משתמשים + הצגת ממצאים</div>
+    </div>
+    <div class="milestone">
+      <div class="milestone-icon">🏗️</div>
+      <div class="milestone-session">מפגש 25</div>
+      <div class="milestone-title">הדגמת MVP</div>
+      <div class="milestone-desc">מוצר ראשוני עובד — הדגמה בפני מנחים</div>
+    </div>
+    <div class="milestone">
+      <div class="milestone-icon">🏆</div>
+      <div class="milestone-session">מפגש 30</div>
+      <div class="milestone-title">יום הסיום</div>
+      <div class="milestone-desc">הצגה לקהל, הורים, ומשקיעים אורחים</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PRODUCT EXAMPLES -->
+<section id="products">
+<div class="section-inner">
+  <h2 class="section-title">דוגמאות לפרויקטים אפשריים</h2>
+  <p class="section-sub">השראה לסוגי המוצרים שצוותי החדשנות יכולים לפתח</p>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <span class="cat" style="background:#dbeafe;color:#1e40af;">🔬 חקר + AI</span>
+      <h3>מכשיר בדיקת איכות אוויר חכם</h3>
+      <p>מכשיר IoT שמנטר זיהום אוויר ומשתמש ב-AI לניבוי בעיות בריאותיות — עם אפליקציה ואזהרות אוטומטיות</p>
+      <div class="tags">
+        <span class="tag">חיישנים</span><span class="tag">Python</span><span class="tag">SaaS</span><span class="tag">בריאות</span>
+      </div>
+    </div>
+
+    <div class="example-card">
+      <span class="cat" style="background:#ede9fe;color:#5b21b6;">🖨️ תלת מימד + מוצר</span>
+      <h3>עזרים לימודיים מותאמים אישית</h3>
+      <p>הדפסת עזרים פיזיים מותאמים לתלמידים עם לקויות למידה — עסק B2B לבתי ספר</p>
+      <div class="tags">
+        <span class="tag">הדפסה</span><span class="tag">חינוך</span><span class="tag">B2B</span><span class="tag">נגישות</span>
+      </div>
+    </div>
+
+    <div class="example-card">
+      <span class="cat" style="background:#fce7f3;color:#9d174d;">🤖 AI + מוצר</span>
+      <h3>מאמן אישי לשפה</h3>
+      <p>אפליקציה שמשתמשת ב-LLM ל-roleplay שיחות באנגלית — עם מנגנון gamification ומנוי חודשי</p>
+      <div class="tags">
+        <span class="tag">ChatGPT API</span><span class="tag">SaaS</span><span class="tag">חינוך</span><span class="tag">B2C</span>
+      </div>
+    </div>
+
+    <div class="example-card">
+      <span class="cat" style="background:#ffedd5;color:#9a3412;">🔬 חקר + תלת מימד</span>
+      <h3>ערכת ניסויים ביתית</h3>
+      <p>ערכה לילדים עם ציוד מודפס בתלת מימד וחוברת ניסויים — מכירה ישירה דרך אתר ואמזון</p>
+      <div class="tags">
+        <span class="tag">E-commerce</span><span class="tag">ילדים</span><span class="tag">STEM</span><span class="tag">D2C</span>
+      </div>
+    </div>
+
+    <div class="example-card">
+      <span class="cat" style="background:#dcfce7;color:#14532d;">🤝 כל התחומים</span>
+      <h3>מערכת ניטור בריאות לקשישים</h3>
+      <p>רכיב לביש מודפס בתלת מימד, AI שמנתח נתונים, מחקר רפואי — ומנהל מוצר שמוביל את המכירה לבתי אבות</p>
+      <div class="tags">
+        <span class="tag">IoT</span><span class="tag">בריאות</span><span class="tag">B2B</span><span class="tag">Wearable</span>
+      </div>
+    </div>
+
+    <div class="example-card">
+      <span class="cat" style="background:#fce7f3;color:#9d174d;">🤖 AI + חקר</span>
+      <h3>כלי אבחון צמחים חכם</h3>
+      <p>צילום עלה → AI מזהה מחלה → המלצה על טיפול. שיווק לחקלאים ולגנים</p>
+      <div class="tags">
+        <span class="tag">Computer Vision</span><span class="tag">חקלאות</span><span class="tag">SaaS</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- PRESENTATION TIPS -->
+<section style="background:white;">
+<div class="section-inner">
+  <h2 class="section-title">מבנה פיץ׳ הסיום</h2>
+  <p class="section-sub">מה כל צוות יציג ביום ה-Demo Day — מפגש 30</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+    <div class="card" style="text-align:center;border-top:4px solid #2563eb;">
+      <div style="font-size:28px;margin-bottom:8px;">❗</div>
+      <div style="font-weight:700;">הבעיה</div>
+      <div style="font-size:13px;color:var(--gray);margin-top:4px;">מי סובל? מה הכאב? כמה גדול?</div>
+    </div>
+    <div class="card" style="text-align:center;border-top:4px solid #7c3aed;">
+      <div style="font-size:28px;margin-bottom:8px;">💡</div>
+      <div style="font-weight:700;">הפתרון</div>
+      <div style="font-size:13px;color:var(--gray);margin-top:4px;">המוצר, איך עובד, הדגמה חיה</div>
+    </div>
+    <div class="card" style="text-align:center;border-top:4px solid #db2777;">
+      <div style="font-size:28px;margin-bottom:8px;">📊</div>
+      <div style="font-weight:700;">שוק</div>
+      <div style="font-size:13px;color:var(--gray);margin-top:4px;">TAM/SAM/SOM, מתחרים</div>
+    </div>
+    <div class="card" style="text-align:center;border-top:4px solid #ea580c;">
+      <div style="font-size:28px;margin-bottom:8px;">💰</div>
+      <div style="font-weight:700;">מודל עסקי</div>
+      <div style="font-size:13px;color:var(--gray);margin-top:4px;">איך מרוויחים? כמה?</div>
+    </div>
+    <div class="card" style="text-align:center;border-top:4px solid #16a34a;">
+      <div style="font-size:28px;margin-bottom:8px;">🧑‍🤝‍🧑</div>
+      <div style="font-weight:700;">הצוות</div>
+      <div style="font-size:13px;color:var(--gray);margin-top:4px;">מי אנחנו? למה אנחנו?</div>
+    </div>
+    <div class="card" style="text-align:center;border-top:4px solid #0891b2;">
+      <div style="font-size:28px;margin-bottom:8px;">🚀</div>
+      <div style="font-weight:700;">הצעד הבא</div>
+      <div style="font-size:13px;color:var(--gray);margin-top:4px;">מה נדרש? מה הבקשה?</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div style="font-size:24px;margin-bottom:8px;">🚀</div>
+  <div style="font-size:18px;font-weight:700;color:white;margin-bottom:8px;">תוכנית חדשנות ויזמות טכנולוגית</div>
+  <div>30 מפגשים · 80 תלמידים · 4 תחומים · 10 צוותי חדשנות</div>
+</footer>
+
+<script>
+// ─── LESSON PLANS PER DOMAIN ───────────────────────────────────────────────
+const LP = {
+  // Session 1 — all together
+  1: {
+    all: {title:'מערך שיעור — יום הפתיחה',blocks:[
+      {title:'פתיחה והכרות',time:'0:00–0:20',steps:['הקרנת סרטון השראה 3 דק׳ (Waze / Mobileye)','כל אחד אומר שמו + "חלום שלי הוא..."','מנחה ראשי מציג את מפת הדרכים']},
+      {title:'הצגת 4 התחומים',time:'0:20–0:50',steps:['כל מנחה מציג 5 דקות + דמו מפתיע','חקר: ניסוי בועות | תלת מימד: הדפסה חיה | AI: Claude מייצר שיר | מוצר: deconstruct אפליקציה','תלמידים מציינים 3 תחומים בסדר עדיפות']},
+      {title:'חלוקה לקבוצות',time:'0:50–1:20',steps:['חלוקה ל-4 קבוצות של 20 (לפי עדיפות ראשונה + איזון)','כל קבוצה בוחרת שם וסמל','כתיבת חוזה קבוצתי — 3 כללים']},
+      {title:'סיום וציפיות',time:'1:20–1:40',steps:['כל תלמיד כותב על פתק: "אני רוצה לצאת מהתוכנית עם..."','הדבקה על לוח ציפיות משותף','הנחיות למפגש הבא']},
+    ],note:'💡 הכינו מצגת פתיחה מרשימה. הדמואים צריכים להיות "וואו" — זה הרגע שמדליק את התלמידים'}
+  },
+
+  // Session 2 — domain split
+  2: {
+    sci: {title:'מערך שיעור — חקר מדעי: מה זה חקר?',blocks:[
+      {title:'מה זה שאלה מדעית?',time:'0:00–0:25',steps:['דיון: "מה ההבדל בין שאלה רגילה לשאלה מדעית?"','5 דוגמאות — תלמידים מנחשים אם ניתן לחקור','מנחה מציג: שאלה טובה = ניתנת לבדיקה, מדידה, חזרה']},
+      {title:'ניסוי הכרוב — pH',time:'0:25–1:00',steps:['הדגמה: טחינת כרוב אדום + מסננה','בדיקת 5 נוזלים (חלב, לימון, סבון, מים, קולה)','רישום תצפיות בטבלה — מה צבע? מה לדעתך קרה?','שאלה: "מה הייתם רוצים לבדוק בניסוי הבא?"']},
+      {title:'כלי המדען',time:'1:00–1:30',steps:['הצגת notebook מדעי — איך כותבים תצפיות','חוק השמירה: כל תצפית מתועדת','תלמידים ממלאים notebook ראשון']},
+      {title:'אתגר הבית',time:'1:30–1:40',steps:['כל תלמיד בוחר שאלה שרוצה לחקור','מביא למפגש הבא: 3 הנחות + תוכנית ניסוי']},
+    ],note:'🔬 חומרים: כרוב אדום, בלנדר, מסננת, כוסות, חלב/לימון/סבון/קולה. הכינו מראש!'},
+
+    '3d': {title:'מערך שיעור — תלת מימד: הדפסה ראשונה',blocks:[
+      {title:'מה זה הדפסה תלת מימדית?',time:'0:00–0:20',steps:['הקרנת וידאו 2 דק׳: "איך עובדת מדפסת 3D"','הדגמה פיזית: מחזיק עטים שהודפס מראש','שאלות: מה אפשר לבנות? מה לא?']},
+      {title:'Tinkercad — ממשק ראשון',time:'0:20–1:00',steps:['כניסה ל-tinkercad.com + יצירת חשבון','הדגמה מודרכת: cube, cylinder, hole','תרגיל: "צור את שמך בתלת מימד"']},
+      {title:'עיצוב מחזיק',time:'1:00–1:30',steps:['כל תלמיד מעצב מחזיק עטים פשוט','שמירה + export STL','2 עיצובים נבחרים — שליחה להדפסה']},
+      {title:'סגירה',time:'1:30–1:40',steps:['מנחה מסביר: "בשבוע הבא נראה את המוצר המודפס"','שיחה: מה היה קשה? מה הפתיע?']},
+    ],note:'🖨️ הפעילו את המדפסת מראש! הכינו דגמים ראשוניים שהתלמידים יוכלו לגעת בהם'},
+
+    ai: {title:'מערך שיעור — AI: ברוכים הבאים לעידן האינטליגנטי',blocks:[
+      {title:'פתיחה — AI בחיי היום יום',time:'0:00–0:20',steps:['שאלה: "ספרו על AI שהשתמשתם בו השבוע" — Spotify? Waze? TikTok?','מיפוי על הלוח: AI שאנחנו כבר משתמשים בו','מנחה מציג: AI אינו מדע בדיוני — זה עכשיו']},
+      {title:'Claude — שיחה ראשונה',time:'0:20–0:55',steps:['כל תלמיד נכנס ל-claude.ai','אתגר 1: "בקש ממנו לכתוב שיר על עצמך"','אתגר 2: "שאל שאלה שחשבת שאין לה תשובה"','אתגר 3: "בקש ממנו לעזור בשיעורי בית"','דיון: מה היה מדהים? מה היה שגוי?']},
+      {title:'NotebookLM — AI שיודע מה שאתה יודע',time:'0:55–1:30',steps:['פתיחת notebooklm.google.com','העלאת מסמך: טקסט ספר לימוד / מאמר','הדגמה: שאל שאלה על המסמך שהעלית','תרגיל: "הסבר לי כאילו אני בן 10" — השוו תשובות']},
+      {title:'סיכום ו-Wow moment',time:'1:30–1:40',steps:['כל תלמיד כותב: "הדבר שהכי הפתיע אותי"','הצגה קצרה: מה גיליתי על AI שלא ידעתי?']},
+    ],note:'🤖 וודאו שיש גישה ל-internet לכולם. הכינו חשבונות Claude ו-NotebookLM מראש אם צריך'},
+
+    pm: {title:'מערך שיעור — ניהול מוצר: מה זה מוצר?',blocks:[
+      {title:'מוצר = פתרון לבעיה',time:'0:00–0:25',steps:['דוגמה: "Waze לא המציא ניווט — הוא פתר את בעיית העדכניות"','תרגיל: "בחרו אפליקציה שאתם אוהבים — מה הבעיה שהיא פותרת?"','הגדרה: מוצר טוב = פותר בעיה כואבת בצורה טובה יותר']},
+      {title:'Deconstruct אפליקציה',time:'0:25–1:00',steps:['הורדת אפליקציה פשוטה (למשל: Splitwise)','ניתוח: מי הלקוח? מה הבעיה? מה הפתרון? איך מרוויחים?','מילוי "User Story": "כ-[מי], אני רוצה ל-[מה], כדי ל-[למה]"']},
+      {title:'בניית מוצר דמיוני',time:'1:00–1:30',steps:['כל תלמיד בוחר בעיה שמעצבנת אותו','מילוי: מי יתן על זה כסף? כמה? למה?','סקיצה ראשונה של המסך הראשי']},
+      {title:'שיתוף',time:'1:30–1:40',steps:['3 תלמידים מציגים את הרעיון שלהם','פידבק על פי: "אהבתי / שאלה / הצעה"']},
+    ],note:'📦 הדגישו: Product Manager לא כותב קוד — הוא מבין בעיות ומוביל פתרונות'}
+  },
+
+  // Session 3
+  3: {
+    sci: {title:'מערך שיעור — שיטת המחקר',blocks:[
+      {title:'מחזור המדע',time:'0:00–0:30',steps:['הצגת 5 שלבי המחקר: שאלה → השערה → ניסוי → ניתוח → מסקנה','דוגמה: חקירת מה גורם ללחם לעלות?','כל תלמיד בוחר שאלה מחקרית משלו']},
+      {title:'ניסוי עצמאי',time:'0:30–1:15',steps:['כל תלמיד מגדיר: משתנה בלתי תלוי / תלוי / קבוע','ביצוע ניסוי (חומרים מוכנים)','רישום ב-notebook + גרף ראשון']},
+      {title:'ניתוח ושיתוף',time:'1:15–1:40',steps:['כל תלמיד מציג ממצאים ב-2 דקות','מה צפינו? מה קיבלנו? מה הסביר?']},
+    ],note:'🔬 הכינו 3-4 תחנות ניסוי שתלמידים יכולים לעבור ביניהן'},
+
+    '3d': {title:'מערך שיעור — Tinkercad מתקדם',blocks:[
+      {title:'חזרה + חידוש',time:'0:00–0:20',steps:['הצגת המחזיקים שהודפסו מהשבוע שעבר','מה עבד? מה צריך שיפור?','מנחה מציג: Align, Group, Ruler']},
+      {title:'פרויקט: מפתח שם',time:'0:20–1:10',steps:['כל תלמיד מעצב מחזיק מפתחות עם שמו','שימוש ב: emboss טקסט, holes, shapes מורכבים','הערכה: האם זה ניתן להדפסה?']},
+      {title:'שליחה להדפסה',time:'1:10–1:40',steps:['Slice ב-Ultimaker Cura','הבנת זמן הדפסה + חומר','שליחת 5 עיצובים נבחרים']},
+    ],note:'🖨️ הכינו filament צבעוני — זה מוסיף ריגוש'},
+
+    ai: {title:'מערך שיעור — NotebookLM לעומק',blocks:[
+      {title:'NotebookLM — מה זה בעצם?',time:'0:00–0:20',steps:['AI ש"קורא" את המסמכים שלך ועונה שאלות עליהם','דמו: "העלתי את ספר ההיסטוריה שלכם — שאלו אותו כל שאלה"','שאלת פתיחה: "מה היה גורם לכם ללמוד יותר טוב?"']},
+      {title:'יצירת Notebook על נושא שבוחרים',time:'0:20–1:00',steps:['כל תלמיד בוחר נושא שמעניין אותו','מחפש 2-3 מסמכים/מאמרים (Wikipedia / PDF)','מעלה ל-NotebookLM','שואל: "סכם", "מה חשוב", "מה לא הבנתי"']},
+      {title:'Audio Overview — הפודקאסט הקסום',time:'1:00–1:35',steps:['לחצן "Audio Overview" — NotebookLM מייצר פודקאסט!','האזנה ל-3 דקות ראשונות','דיון: "זה מדויק? מה חסר? מה הפתיע?"']},
+      {title:'סיכום',time:'1:35–1:40',steps:['כל תלמיד: "הייתי משתמש ב-NotebookLM כדי ל..."']},
+    ],note:'🎙️ Audio Overview הוא ה-WOW moment של NotebookLM — הכינו את הקישור מראש'},
+
+    pm: {title:'מערך שיעור — User Research בסיסי',blocks:[
+      {title:'לקוח ≠ אתה',time:'0:00–0:20',steps:['דוגמה: "Segway — המצאה מבריקה שנכשלה. למה?"','הבנה: חשבנו שאנחנו יודעים מה הלקוח רוצה — לא שאלנו אותו','כלל הזהב: "צא מהבניין"']},
+      {title:'Empathy Map',time:'0:20–0:55',steps:['הצגת מפת אמפתיה: Thinks / Feels / Does / Says','תרגיל: ממלאים מפה על "תלמיד בן 15 בבוקר לפני מבחן"','שיתוף: מה גילינו שלא ידענו?']},
+      {title:'ראיון מהיר',time:'0:55–1:35',steps:['זוגות: אחד ראיון, אחד כותב','שאלות פתוחות: "ספר לי על פעם שהיה לך קשה עם..."','5 שאלות, 10 דקות, אחר כך מחליפים']},
+      {title:'ממצאים',time:'1:35–1:40',steps:['כל זוג: "דבר אחד שהפתיע אותנו"']},
+    ],note:'📝 לימדו ראיון פתוח — "למה?" הוא השאלה החשובה ביותר'}
+  },
+
+  // Session 4
+  4: {
+    sci: {title:'מערך שיעור — מיני פרויקט: חקר עצמאי ראשון',blocks:[
+      {title:'הגדרת הפרויקט',time:'0:00–0:20',steps:['כל תלמיד מגיש שאלת מחקר + השערה','מנחה מאשר / מדייק','חלוקת ציוד']},
+      {title:'ניסוי עצמאי',time:'0:20–1:20',steps:['45 דקות — כל תלמיד עובד עצמאית','מנחה מסייר + שואל שאלות מנחות','תיעוד: צילומים + טבלת נתונים']},
+      {title:'Showcase',time:'1:20–1:40',steps:['3 דקות לכל תלמיד: שאלה, שיטה, ממצא','קהל שואל שאלות','מנחה נותן פידבק ספציפי']},
+    ],note:'🏆 אבן דרך 1 — תעדו בצילומים! זה פורטפוליו לסוף התוכנית'},
+
+    '3d': {title:'מערך שיעור — מיני פרויקט: עיצוב לפי בחירה',blocks:[
+      {title:'בחירת נושא',time:'0:00–0:15',steps:['כל תלמיד בוחר: מחזיק / ספינר / פסל / עיצוב אישי','הגשת sketch ידני לאישור מנחה']},
+      {title:'עיצוב ב-Tinkercad',time:'0:15–1:10',steps:['60 דקות עבודה עצמאית','מנחה עוזר לנתקעים','צ׳ק-אין ב-35 דק׳: "כולם על הדרך?"']},
+      {title:'Showcase',time:'1:10–1:40',steps:['כל תלמיד מראה את המסך: "זה מה שבניתי"','הצבעה: איזה עיצוב רוצים לראות מודפס?','3 עיצובים נבחרים נשלחים להדפסה']},
+    ],note:'🖨️ הכינו מקדים הדפסות שיהיו מוכנות למפגש הבא — אפקט WOW'},
+
+    ai: {title:'מערך שיעור — Claude Code: בניית כלי ראשון',blocks:[
+      {title:'מה זה Claude Code?',time:'0:00–0:25',steps:['הדגמה: "בקשתי מ-Claude לבנות לי אתר בשניות"','הקרנה: Claude.ai → "בנה לי מחשבון ב-HTML"','ריצת התוצאה בדפדפן — WOW!','מסר: "אתם לא צריכים לדעת לקוד — אתם צריכים לדעת לתאר"']},
+      {title:'Prompt Engineering — לדבר עם AI',time:'0:25–0:55',steps:['עיקרון: "ככל שתתאר יותר, תקבל יותר"','תרגיל A: "בנה מחשבון" — תוצאה גנרית','תרגיל B: "בנה מחשבון לחישוב ציוני מגן עם ממוצע" — תוצאה ספציפית','השוואה: מה עדיף?']},
+      {title:'פרויקט ראשון בClaude',time:'0:55–1:30',steps:['כל תלמיד בוחר: מחשבון / אתר / משחק / כלי שיועיל לו','כותב פרומפט מפורט','Claude בונה → תלמיד בודק → Claude מתקן','Iteration: "שפר את...", "הוסף...", "שנה..."']},
+      {title:'Showcase',time:'1:30–1:40',steps:['3 תלמידים מדגימים את מה שיצרו','מנחה: "הפרומפט שלך הוא הקוד שלך"']},
+    ],note:'🏆 אבן דרך 1 — זהו הרגע שהתלמידים מבינים שהם יכולים לבנות. שמרו screenshot של כל תוצר!'},
+
+    pm: {title:'מערך שיעור — מיני פרויקט: ניתוח מוצר מלא',blocks:[
+      {title:'בחירת מוצר',time:'0:00–0:15',steps:['כל תלמיד בוחר מוצר/אפליקציה שאוהב','הגדרה: "אני ה-PM של X — אני צריך להבין הכל"']},
+      {title:'ניתוח מעמיק',time:'0:15–1:10',steps:['מילוי Deconstruct Sheet: בעיה / לקוח / פתרון / מתחרים / הכנסות','ציור journey map של המשתמש','זיהוי: מה שלוש הנקודות החלשות?']},
+      {title:'הצגה + פידבק',time:'1:10–1:40',steps:['4 דקות לכל תלמיד: "אם הייתי PM של X, הייתי משנה..."','קהל: "מסכים / לא מסכים / למה?"']},
+    ],note:'📦 הכינו תבנית Deconstruct Sheet מוכנה לחלוקה'}
+  },
+
+  // Session 5 — cross-group
+  5: {
+    all: {title:'מערך שיעור — חשיפה הדדית',blocks:[
+      {title:'כינוס כולם',time:'0:00–0:10',steps:['מנחה ראשי: "היום כל קבוצה מלמדת את השאר"','כללים: 5 דק׳ לכל קבוצה, אחרי זה — שאלות']},
+      {title:'4 × Mini-Demo',time:'0:10–0:50',steps:['קבוצה א׳ — חקר: הדגמת ניסוי','קבוצה ב׳ — תלת מימד: מוצר מודפס','קבוצה ג׳ — AI: Claude בונה משהו בזמן אמת','קבוצה ד׳ — מוצר: מצגת Deconstruct']},
+      {title:'Try It Yourself',time:'0:50–1:30',steps:['4 תחנות — כל תחנה 8 דקות','תלמידים מסתובבים ומנסים כלי של תחום אחר','רישום: "מה גיליתי שלא ידעתי?"']},
+      {title:'Cross-Pollination',time:'1:30–1:40',steps:['דיון: "איך ניתן לשלב שני תחומים לפתרון?"','מנחה מציג: "כך נוצרים צוותי החדשנות שלנו"']},
+    ],note:'💡 זה מפגש מהנה — הכינו מוזיקה, פינוק, אווירה של "חג ידע"'}
+  },
+
+  6: {
+    sci: {title:'מערך שיעור — ניתוח נתונים עם AI',blocks:[
+      {title:'נתונים ≠ מידע',time:'0:00–0:20',steps:['"יש לכם 100 מדידות — מה עכשיו?"','הצגת הבדל: data → information → insight','דוגמה: טמפרטורה לאורך היום — מה ניתן להסיק?']},
+      {title:'Excel/Sheets בסיסי',time:'0:20–0:55',steps:['פתיחת Google Sheets','הכנסת נתוני הניסוי מהשבועות הקודמים','יצירת גרף ראשון (column chart)','AVERAGE, MIN, MAX — פונקציות בסיסיות']},
+      {title:'Claude מנתח נתונים',time:'0:55–1:30',steps:['Copy-paste הנתונים לClaude','"ניתח את הנתונים האלו ואמר לי מה מעניין"','השוואה: מה Claude מצא שלא ראינו?','Claude כותב סיכום מדעי — עריכה משותפת']},
+      {title:'סיכום',time:'1:30–1:40',steps:['AI הוא עוזר המחקר שלך — לא תחליף לחשיבה']},
+    ],note:'📊 הכינו CSV עם נתוני ניסוי לדוגמה להעלאה ל-Claude'},
+
+    '3d': {title:'מערך שיעור — עיצוב פונקציונלי',blocks:[
+      {title:'מה זה עיצוב טוב?',time:'0:00–0:20',steps:['Form follows function — הצורה עוקבת אחרי הפונקציה','דוגמאות: כיסא ארגונומי, סכין שף, AirPods','שאלה: "מה הופך כלי לנוח?"']},
+      {title:'ניתוח ושיפור',time:'0:20–0:55',steps:['כל תלמיד חוזר לעיצוב ממפגש 4','פידבק מחבר: "מה לא נוח? מה לא ברור?"','שיפור: iteration round 2']},
+      {title:'חומרים ועלויות',time:'0:55–1:30',steps:['Filament: PLA vs PETG — מה ההבדל?','חישוב: כמה עולה להדפיס 100 גרם?','שאלה יזמית: "כמה תגבה עבור העיצוב שלך?"']},
+      {title:'Gallery Walk',time:'1:30–1:40',steps:['כל תלמיד מציג את גרסה 2','מה השתפר?']},
+    ],note:'🖨️ הציגו את השמות/מחזיקי המפתחות שהודפסו — זה ה-WOW moment'},
+
+    ai: {title:'מערך שיעור — Claude Code: מהרעיון לאפליקציה',blocks:[
+      {title:'Iteration Loop',time:'0:00–0:20',steps:['חזרה לפרויקטים ממפגש 4','מנחה: "AI הוא שותף פיתוח — לא כלי חד-פעמי"','הצגת: Build → Test → Improve → Repeat']},
+      {title:'שיפור הפרויקט',time:'0:20–1:00',steps:['כל תלמיד שואל Claude לשפר את הכלי שבנה','הוספת עיצוב (CSS): "תגרום לזה להיראות מקצועי"','הוספת פיצ׳ר: "הוסף [X] לכלי שלי"','Debugging: "יש שגיאה ב..., תתקן"']},
+      {title:'NotebookLM + Claude —콤בינציה',time:'1:00–1:30',steps:['תרגיל: "קח נושא לימודי, העלה ל-NotebookLM, ואז בקש מ-Claude לבנות כלי שיעזור ללמוד אותו"','דוגמה: "בניתי quiz מתמטיקה מבוסס על NotebookLM של ספר הלימוד שלי"']},
+      {title:'הצגה',time:'1:30–1:40',steps:['3 הכלים הכי מרשימים — הדגמה חיה']},
+    ],note:'🤖 עודדו יצירתיות — אין כלי "שגוי". מה שהתלמיד רוצה לבנות — Claude יבנה'},
+
+    pm: {title:'מערך שיעור — Competitive Analysis',blocks:[
+      {title:'מי הם המתחרים?',time:'0:00–0:20',steps:['הגדרה: מתחרה ישיר vs. עקיף vs. תחלופה','דוגמה: Spotify מתחרה עם: Apple Music (ישיר), YouTube (עקיף), רדיו (תחלופה)']},
+      {title:'Matrix Analysis',time:'0:20–1:00',steps:['כל תלמיד בוחר תחום מוצר','מיפוי 4 מתחרים × 5 קריטריונים בגוגל שיטס','מה לוקחים מהם? מה אנחנו נעשה שונה?']},
+      {title:'Blue Ocean',time:'1:00–1:30',steps:['מונח: "Blue Ocean" — מרחב שאין בו תחרות','כל תלמיד מזהה: "האזור הכחול של המוצר שלי"','מצגת: "אנחנו היחידים ש..."']},
+      {title:'שיתוף',time:'1:30–1:40',steps:['3 דקות לתלמיד — הצגת ה-Blue Ocean שמצאו']},
+    ],note:'📊 הכינו Google Sheets Template של Competitive Matrix לחלוקה'}
+  },
+
+  7: {
+    all: {title:'מערך שיעור — אורח מהתעשייה',blocks:[
+      {title:'הכנה לאורח',time:'0:00–0:15',steps:['כל קבוצה מכינה 3 שאלות לאורח','מנחה: "שאלה טובה = ספציפית, לא ניתן לענות עליה בגוגל"','הקרנת ביוגרפיה קצרה של האורח']},
+      {title:'הרצאת האורח',time:'0:15–0:45',steps:['20 דק׳ הרצאה חופשית','5 דק׳: הדגמה / case study','5 דק׳: "מה שלא ידעתי ב-18 שאני יודע היום"']},
+      {title:'Q&A',time:'0:45–1:15',steps:['שאלות מוכנות מהקבוצות','שאלות ספונטניות','מנחה ממתן: "נתן לכולם להשתתף"']},
+      {title:'עיבוד ויישום',time:'1:15–1:40',steps:['כל קבוצה: "3 דברים שנלקח מהמפגש הזה לפרויקט שלנו"','הצגה קצרה']},
+    ],note:'🌟 בחרו אורח שיש לו סיפור מהנה — לא רק CV מרשים. אנשים לומדים מסיפורים'}
+  },
+
+  8: {
+    all: {title:'מערך שיעור — בחירת ההתמחות',blocks:[
+      {title:'הרהור אישי',time:'0:00–0:25',steps:['כל תלמיד ממלא שאלון: "מה הצית אותי? מה בא לי בקלות? מה רציתי ללמוד עוד?"','ציון 1-5 לכל תחום: "כמה אני רוצה לעשות את זה שנה??"','כתיבת: "בעוד 10 שנים אני רוצה להיות..."']},
+      {title:'שיחות אישיות עם מנחה',time:'0:25–1:10',steps:['כל תלמיד מקבל 5 דקות עם מנחה','מנחה שואל: "מה הפחיד? מה ריגש? מה קשה?"','המלצת מנחה — לא כפייה']},
+      {title:'הכרזת הבחירות',time:'1:10–1:30',steps:['כל תלמיד אומר בקול: "אני בוחר ב[תחום] כי..."','קצב וחגיגי — ריצת הקריאות','רישום על לוח / Padlet']},
+      {title:'הכרזה על קבוצות החדשות',time:'1:30–1:40',steps:['מנחה ראשי: "ברוכים הבאים לשלב 2!"','הכרזה על מנחי ההתמחות','הכנה: לכו הביתה וחשבו על רעיון לפרויקט']},
+    ],note:'🗳️ חשוב: אין "תחום נכון" — כל בחירה תקפה. עזרו לתלמידים שמתלבטים בין שניים',milestone:true}
+  },
+
+  9: {
+    sci: {title:'מערך שיעור — חקר מדעי: שלב 2 — עומק',blocks:[
+      {title:'מיפוי יכולות',time:'0:00–0:30',steps:['כל תלמיד מציג: "אני טוב ב... אני מתקשה ב..."','בניית מפת יכולות קבוצתית','חלוקת תפקידים: מי "מנתח נתונים"? מי "כותב"? מי "מעצב"?']},
+      {title:'בחירת תחום מחקר',time:'0:30–1:10',steps:['3 תחומי מחקר אפשריים: ביולוגיה / כימיה / פיזיקה / סביבה','כל תלמיד מגיש 2 שאלות מחקר פוטנציאליות','הצבעה + בחירה משותפת']},
+      {title:'תכנון המחקר',time:'1:10–1:40',steps:['Research Design: מה נמדוד? כמה פעמים? בכמה קבוצות?','לוח זמנים לשלב 2','רשימת ציוד הנדרש']},
+    ],note:'🔬 שלב 2 הוא "האמיתי" — עכשיו המחקר הופך ליותר מובנה ועצמאי'},
+
+    '3d': {title:'מערך שיעור — תלת מימד: שלב 2 — מנגנונים',blocks:[
+      {title:'מנגנונים נעים',time:'0:00–0:30',steps:['מה אפשר לגרום לנוע בהדפסה תלת מימד?','צירים (hinges), גלגלים, קפיצים, בוכנות','הצגת דוגמאות מ-Thingiverse']},
+      {title:'Fusion 360 — מבוא',time:'0:30–1:10',steps:['יתרון על Tinkercad: מידות מדויקות, assemblies','הדגמה: ציר פשוט','כל תלמיד מעצב ציר פשוט']},
+      {title:'תכנון פרויקט שלב 2',time:'1:10–1:40',steps:['כל תלמיד בוחר פרויקט עם מנגנון: דלת / מנעול / רובוט','sketch + רשימת חלקים','בדיקה: האם ניתן להדפיס?']},
+    ],note:'🖨️ Fusion 360 - חינמי לסטודנטים (autodesk.com/education)'},
+
+    ai: {title:'מערך שיעור — AI שלב 2: מודלים ויישומים',blocks:[
+      {title:'מה מתחת למכסה המנוע?',time:'0:00–0:30',steps:['איך Claude / ChatGPT עובדים? (הסבר פשוט)','Neural Networks — אנלוגיה: מוח = רשת נוירונים','Training Data — AI לומד ממה שאנחנו כותבים']},
+      {title:'Teachable Machine',time:'0:30–1:10',steps:['teachablemachine.withgoogle.com — אתר חינמי','בניית מודל: "מזהה תנוחות יד — שלום / להתראות / יד"','Training + Testing — ניסוי ראשון','שאלה: "מה גורם למודל לטעות?"']},
+      {title:'API ו-Claude Code מתקדם',time:'1:10–1:40',steps:['מה זה API? "דרך לדבר עם מחשב אחר"','הדגמה: Claude בונה כלי שמשתמש ב-OpenAI API','תרגיל: "בקש מ-Claude לבנות chatbot בנושא שאתה בוחר"']},
+    ],note:'🤖 Teachable Machine — שלא צריך קוד בכלל. זה מה שגורם ל-WOW'},
+
+    pm: {title:'מערך שיעור — PM שלב 2: אסטרטגיה',blocks:[
+      {title:'Product Strategy',time:'0:00–0:30',steps:['Vision → Strategy → Roadmap → Execution','דוגמה: Spotify — "מוזיקה לכולם" → Podcast → Audiobooks','כל תלמיד מנסח: "ה-Vision של המוצר שלי"']},
+      {title:'OKRs',time:'0:30–1:00',steps:['Objective: מה אנחנו רוצים להשיג?','Key Results: איך נדע שהגענו?','תרגיל: כל תלמיד כותב 1 OKR למוצר שלו']},
+      {title:'Roadmap',time:'1:00–1:40',steps:['בניית 3-month roadmap','Phase 1: Build core | Phase 2: Grow | Phase 3: Scale','כלים: Notion, Linear, או פשוט Spreadsheet']},
+    ],note:'📦 Roadmap יכול להיות פשוט מאוד — גיליון אקסל עם עמודות עובד מצוין'}
+  },
+
+  10: {
+    all: {title:'מערך שיעור — צוותי חדשנות: מפגש ראשון',blocks:[
+      {title:'קונסטלציה חדשה',time:'0:00–0:20',steps:['8 תלמידים מ-4 תחומים — יושבים יחד בפעם הראשונה','מי אני? מה אני מביא לצוות? (30 שניות לאדם)','מה המגה-כוח של הצוות שלנו?']},
+      {title:'Ideation Sprint',time:'0:20–1:00',steps:['10 רעיונות ב-10 דקות (ללא ביקורת)','כל אחד כותב על Post-its','מיון: כמה מהרעיונות יש בהם חיבור בין תחומים?','בחירת TOP 3 לחקירה']},
+      {title:'Deep Dive בשלושת הרעיונות',time:'1:00–1:30',steps:['לכל רעיון: מי הלקוח? מה הטכנולוגיה? מה קשה?','הצבעה: איזה רעיון הכי מרגש את הצוות?','תחילת One-Pager על הרעיון הנבחר']},
+      {title:'תפקידים',time:'1:30–1:40',steps:['PM: מי מוביל?','Tech: מי בונה?','Research: מי חוקר?','Design: מי מעצב?']},
+    ],note:'🤝 זה מפגש קריטי — הצוות הזה יעבוד יחד עד הסוף. השקיעו בבניית אמון'}
+  },
+};
+
+// Fallback lesson plan
+function getLessonPlan(n, group) {
+  if (!LP[n]) return null;
+  if (LP[n].all) return LP[n].all;
+  const key = group==='ai' ? 'ai' : group==='3d' ? '3d' : group==='pm' ? 'pm' : 'sci';
+  return LP[n][key] || LP[n].sci || null;
+}
+
+const SESSIONS = [
+  // ── Phase 1 ──────────────────────────────────────────────────────────────
+  {n:1,phase:1,title:'יום הפתיחה — מי אנחנו ולאן הולכים?',color:'#2563eb',bg:'#dbeafe',
+   goals:['הכרות בין התלמידים והמנחים','הצגת תוכנית המסע כולו','חלוקה ל-4 קבוצות','בניית חוזה קבוצתי'],
+   activities:['משחק הכרות "שני אמיתות ושקר"','סרטון השראה: יזמים ישראלים','דמו WOW לכל תחום','בחירת שם לכל קבוצה'],
+   example:'🎬 מוצגים: Waze, Mobileye, Orbot — איך בני נוער יצרו חברות',
+   tools:['Padlet','Google Slides'],group:'כולם',
+   domainNotes:{sci:'🔬 חקר: ניסוי בועות חיה',d3:'🖨️ תלת מימד: הדגמת הדפסה',ai:'🤖 AI: Claude מייצר שיר',pm:'📦 מוצר: Deconstruct אפליקציה'}},
+
+  {n:2,phase:1,title:'טבילה ראשונה — כל קבוצה בעולם שלה',color:'#2563eb',bg:'#dbeafe',
+   goals:['חשיפה ראשונה לכלים','הבנת "שפת" התחום','עירוי התלהבות ראשונית'],
+   activities:['מנחה מציג את הנחת הבסיס','ניסוי/הדגמה חיה — "וואו"','שאלות פתוחות','כתיבת "מה למדתי היום"'],
+   example:'🔬 חקר: ניסוי pH | 🖨️ תלת מימד: הדפסה ראשונה | 🤖 AI: שיחה ראשונה עם Claude + NotebookLM | 📦 מוצר: Deconstruct',
+   tools:['ציוד מעבדה','Tinkercad','Claude.ai + NotebookLM','Figma'],group:'קבוצות נפרדות',
+   domainNotes:{
+     sci:'🔬 ניסוי pH עם כרוב אדום — הפתעה צבעונית!',
+     d3:'🖨️ מדפסת רצה בזמן אמת, תלמידים רואים שכבה אחר שכבה',
+     ai:'🤖 AI — שלב 1 רוחב: Claude + NotebookLM. תלמידים מגלים שAI כבר בחייהם',
+     pm:'📦 Deconstruct אפליקציה — מה הבעיה שפותרת Waze?'
+   }},
+
+  {n:3,phase:1,title:'לומדים את הכלים — ידיים בעניין',color:'#2563eb',bg:'#dbeafe',
+   goals:['שליטה בסיסית בכלי המרכזי','בניית ביטחון עצמי','יצירת תוצר ראשון'],
+   activities:['הדרכה מודרכת','תרגיל פתוח: "בנה משהו"','תצוגת תוצרים קצרה'],
+   example:'🔬 ניסוי עצמאי | 🖨️ מחזיק מפתחות | 🤖 NotebookLM — Audio Overview מנושא שבוחרים | 📦 User Story',
+   tools:['ציוד מעבדה','Tinkercad','NotebookLM + Claude Code','Figma'],group:'קבוצות נפרדות',
+   domainNotes:{
+     sci:'🔬 כל תלמיד מבצע ניסוי עצמאי וממלא notebook מדעי',
+     d3:'🖨️ עיצוב מחזיק מפתחות ב-Tinkercad + שליחה להדפסה',
+     ai:'🤖 NotebookLM: כל תלמיד בוחר נושא שאוהב, מעלה מסמך ומאזין ל-Audio Overview. אחר כך Claude Code — בניית כלי ראשון',
+     pm:'📦 כתיבת User Stories ראשונות'
+   }},
+
+  {n:4,phase:1,title:'מיני פרויקט — יצירה ראשונה 🏆',color:'#2563eb',bg:'#dbeafe',
+   goals:['יישום עצמאי של הנלמד','הצגה ראשונה בפני קהל','קבלת פידבק בונה'],
+   activities:['בניית פרויקט מיני (45 דק׳)','הכנת הצגה קצרה (2 דק׳)','Showcase — כל קבוצה מציגה'],
+   example:'🏆 אבן דרך 1 — כל קבוצה מציגה תוצר ראשון. AI: כלי שנבנה עם Claude Code',
+   tools:['כלי התחום'],group:'קבוצות נפרדות',milestone:true,
+   domainNotes:{
+     sci:'🔬 הצגת שאלת מחקר + ממצאי ניסוי ראשון',
+     d3:'🖨️ הצגת עיצוב + חלק מודפס בפועל',
+     ai:'🤖 כל תלמיד מדגים כלי שבנה עם Claude Code. זה הרגע שהם מבינים שיכולים לבנות!',
+     pm:'📦 הצגת ניתוח מוצר + 3 שיפורים שהייתי עושה'
+   }},
+
+  {n:5,phase:1,title:'חשיפה הדדית — כל קבוצה מלמדת את השאר',color:'#2563eb',bg:'#dbeafe',
+   goals:['הבנת שאר התחומים','סקרנות לתחומים אחרים','הבנה: "איך זה עובד ביחד"'],
+   activities:['5 דק׳ לכל קבוצה: "מה עשינו" + הדגמה','Q&A בין קבוצות','תחנות Try-It-Yourself'],
+   example:'💡 רגע ה-AHA: "אני רוצה לשלב חקר עם AI!" — AI מציג NotebookLM לכולם',
+   tools:['תחנות הדגמה'],group:'כולם',
+   domainNotes:{
+     sci:'🔬 מציגים ניסוי פשוט שכולם יכולים לנסות',
+     d3:'🖨️ מדפיסים בזמן אמת — כולם רואים',
+     ai:'🤖 מדגימים NotebookLM + Claude Code — אי אפשר שלא להתלהב',
+     pm:'📦 מדגימים Deconstruct + User Story'
+   }},
+
+  {n:6,phase:1,title:'עומק ושיפור — גרסה שנייה',color:'#2563eb',bg:'#dbeafe',
+   goals:['שיפור מבוסס פידבק','הוספת שכבת מורכבות','מחזור build→feedback→improve'],
+   activities:['סקירת פידבק ממפגש 4','שיפור הפרויקט','חיבור לרעיונות עתידיים'],
+   example:'🔄 AI: שיפור הכלי שנבנה, הוספת עיצוב + פיצ׳ר חדש עם Claude Code',
+   tools:['כלי התחום'],group:'קבוצות נפרדות',
+   domainNotes:{
+     sci:'🔬 ניתוח נתונים עם Excel + Claude מנתח נתוני ניסוי',
+     d3:'🖨️ גרסה 2 של העיצוב + היכרות עם Fusion 360',
+     ai:'🤖 Claude Code מתקדם: Iteration Loop + שילוב NotebookLM עם Claude לפרויקט אחד',
+     pm:'📦 Competitive Analysis Matrix + Blue Ocean'
+   }},
+
+  {n:7,phase:1,title:'אורח מהתעשייה — מומחה מהשטח',color:'#2563eb',bg:'#dbeafe',
+   goals:['חשיפה לקריירות אמיתיות','שמיעת "הדרך" האמיתית','שאלות אמיצות'],
+   activities:['הכנת שאלות לאורח','הרצאה + דמו (20 דק׳)','Q&A ומסקנות לפרויקט'],
+   example:'🌟 מדען | מהנדס 3D בתעשייה | מפתח/ת AI | מנהל/ת מוצר בסטארטאפ',
+   tools:['Zoom / פגישה'],group:'כולם',
+   domainNotes:{
+     sci:'🔬 מדען/חוקר בחברה ביולוגית / מכון וייצמן',
+     d3:'🖨️ מעצב תעשייתי שעובד עם הדפסת תלת מימד',
+     ai:'🤖 מפתח AI / Prompt Engineer מחברת AI',
+     pm:'📦 Product Manager בסטארטאפ ישראלי'
+   }},
+
+  {n:8,phase:1,title:'בחירת התמחות — לאן הלב קורא? 🏆',color:'#2563eb',bg:'#dbeafe',
+   goals:['עיבוד חוויית 8 המפגשים','הבנה עצמית','בחירה מושכלת'],
+   activities:['שאלון הרהור אישי','שיחה אישית עם מנחה','הכרזת הבחירה בקהל'],
+   example:'🗳️ אבן דרך 2: כל תלמיד בוחר ומכריז על תחום ההתמחות שלו',
+   tools:['שאלון','שיחה'],group:'אישי',milestone:true,
+   domainNotes:{
+     all:'💡 אין תחום "נכון" — כל בחירה היא תקפה. עזרו לתלמידים שמתלבטים לשאול: "מה ריגש אותי הכי הרבה?"'
+   }},
+
+  // ── Phase 2 ──────────────────────────────────────────────────────────────
+  {n:9,phase:2,title:'קבוצות מומחיות חדשות — מחויבות ועומק',color:'#7c3aed',bg:'#ede9fe',
+   goals:['בניית קבוצת מומחיות','חוזה קבוצתי חדש','הגדרת יעדים לשלב 2'],
+   activities:['כינוס קבוצות המומחיות','מפת יכולות קבוצתית','תכנון לוח זמנים'],
+   example:'📋 כל קבוצה בונה "מפת כישורים" + בוחרת תחום מחקר/פיתוח',
+   tools:['Miro','Google Docs'],group:'קבוצות מומחיות',
+   domainNotes:{
+     sci:'🔬 בחירת שאלת מחקר מרכזית לשלב 2 + Research Design',
+     d3:'🖨️ מבוא Fusion 360 + בחירת פרויקט עם מנגנון',
+     ai:'🤖 Teachable Machine + מבוא ל-API. בניית מודל AI ראשוני',
+     pm:'📦 Product Strategy + OKRs + בניית Roadmap'
+   }},
+
+  {n:10,phase:2,title:'צוותי חדשנות — מפגש ראשון 🤝',color:'#7c3aed',bg:'#ede9fe',
+   goals:['הכרות בין 8 תלמידים מ-4 תחומים','הבנת ערך הגיוון','סיעור מוחות ראשוני'],
+   activities:['"מפגש מהיר" — כל אחד ב-30 שניות','10 רעיונות ב-10 דקות','בחירת 3 רעיונות לחקירה'],
+   example:'⚡ Design Sprint יום 1: כמה רעיונות אפשריים עם ידע מ-4 תחומים?',
+   tools:['Post-its / Jamboard','Notion'],group:'צוותי חדשנות'},
+
+  {n:11,phase:2,title:'מומחיות מעמיקה — שכבה שנייה',color:'#7c3aed',bg:'#ede9fe',
+   goals:['מיומנות מתקדמת בתחום','קישור הידע לרעיון הצוות','הבנת פערי ידע'],
+   activities:['הדרכה טכנית מתקדמת','פרויקט אתגר','שיתוף: "איך זה מתחבר לרעיון?"'],
+   example:'🤖 AI: בניית מודל Teachable Machine | 🖨️ עיצוב מנגנון נע | 🔬 ניתוח נתונים עם Python',
+   tools:['Teachable Machine','Fusion 360','Python Colab'],group:'קבוצות מומחיות',
+   domainNotes:{
+     sci:'🔬 Python בסיסי לניתוח נתונים + ויזואליזציה עם matplotlib',
+     d3:'🖨️ עיצוב Assembly — חיבור שני חלקים שנעים',
+     ai:'🤖 Teachable Machine: בניית מודל + שילוב ב-Claude Code',
+     pm:'📦 Metrics שמעניינים אותנו: DAU, Retention, NPS'
+   }},
+
+  {n:12,phase:2,title:'מחקר שוק — מי הלקוח?',color:'#7c3aed',bg:'#ede9fe',
+   goals:['הבנת הלקוח האידיאלי','לימוד ראיון משתמשים','ניסוח Problem Statement'],
+   activities:['User Research 101','הכנת שאלות ראיון','ראיונות + תמלול'],
+   example:'📞 כל צוות מראיין 5 אנשים. AI עוזר: Claude מנתח תמלולי ראיונות',
+   tools:['otter.ai','Google Forms','Empathy Map'],group:'צוותי חדשנות'},
+
+  {n:13,phase:2,title:'ניתוח ממצאים — מה שמענו?',color:'#7c3aed',bg:'#ede9fe',
+   goals:['עיבוד נתוני ראיונות','זיהוי תבניות ותובנות','חידוד Problem Statement'],
+   activities:['Affinity Mapping','הצגת תובנות','עדכון הרעיון'],
+   example:'💡 "חשבנו שהבעיה היא X — גילינו שהיא Y" | Claude מנתח תמלולים',
+   tools:['Post-its','Miro','Claude לניתוח טקסט'],group:'צוותי חדשנות'},
+
+  {n:14,phase:2,title:'אבטיפוס מהיר — נייר ועיפרון',color:'#7c3aed',bg:'#ede9fe',
+   goals:['לבנות ולא לחשוב','חשיפת הנחות נסתרות','פידבק מוקדם'],
+   activities:['Crazy 8s: 8 סקיצות ב-8 דקות','בחירת הרעיון הטוב','Paper Prototype'],
+   example:'✏️ Paper Prototype → בדיקה עם מישהו מחוץ לצוות',
+   tools:['נייר','Figma'],group:'צוותי חדשנות'},
+
+  {n:15,phase:2,title:'גיבוש רעיון — הצגה למנחים 🏆',color:'#7c3aed',bg:'#ede9fe',
+   goals:['ניסוח ברור של הרעיון','פידבק מקצועי','החלטה על כיוון'],
+   activities:['5 דק׳ פיץ׳ לכל צוות','פידבק מנחים','תיקון כיוון'],
+   example:'🏆 אבן דרך 3: One-Pager של הרעיון. AI: Claude עוזר לנסח',
+   tools:['Google Slides','One-Pager Template'],group:'צוותי חדשנות',milestone:true},
+
+  {n:16,phase:2,title:'כלי המומחיות — בשירות הרעיון',color:'#7c3aed',bg:'#ede9fe',
+   goals:['חיבור ידע למוצר','בניית הרכיב הטכנולוגי','מיפוי פערי ידע'],
+   activities:['כל תחום בונה את "החלק שלו"','איך מחברים הכל?','רשימת פערים'],
+   example:'🔧 AI team כותב API | תלת מימד מדפיס ממשק | Claude Code מחבר הכל',
+   tools:['כלי התחום'],group:'צוותי חדשנות + מומחיות'},
+
+  {n:17,phase:2,title:'מתחרים וחלופות — יש מישהו אחר?',color:'#7c3aed',bg:'#ede9fe',
+   goals:['מיפוי שוק התחרות','הבנת הייחודיות','בניית Value Proposition'],
+   activities:['Competitive Analysis Matrix','מה אנחנו עושים שאף אחד לא?','ניסוח UVP'],
+   example:'📊 Competitive Matrix: 4 מתחרים × 5 קריטריונים | Claude מחפש מתחרים',
+   tools:['Notion','Miro','Claude לחקר שוק'],group:'צוותי חדשנות'},
+
+  {n:18,phase:2,title:'מוצר ראשוני — MVP מינימלי',color:'#7c3aed',bg:'#ede9fe',
+   goals:['הגדרת MVP','חלוקת תפקידים','התחלת פיתוח'],
+   activities:['MoSCoW Method','חלוקת תפקידים','שעת עבודה: פיתוח MVP'],
+   example:'⚙️ "MVP שלנו = פונקציה אחת שעובדת" | Claude Code עוזר לבנות',
+   tools:['GitHub','Figma','Claude Code'],group:'צוותי חדשנות'},
+
+  {n:19,phase:2,title:'בדיקות משתמשים — מה עובד?',color:'#7c3aed',bg:'#ede9fe',
+   goals:['בדיקת MVP עם משתמשים','זיהוי בעיות שימושיות','שיפורים מהירים'],
+   activities:['גיוס 3 משתמשים','Think Aloud Testing','עיבוד פידבק'],
+   example:'👥 "3 משתמשים נתקעו באותו מקום — חייבים לשנות"',
+   tools:['תצפית','Claude מנתח פידבק'],group:'צוותי חדשנות'},
+
+  {n:20,phase:2,title:'אימות — הלקוח אמר כן? 🏆',color:'#7c3aed',bg:'#ede9fe',
+   goals:['בדיקת נכונות-לשלם','חיזוק / הפרכת הנחות','הצגת ממצאים'],
+   activities:['Smoke Test / Landing Page','ניתוח תוצאות','הצגת ממצאי אימות'],
+   example:'🏆 אבן דרך 4: האם הלקוח ישלם? | NotebookLM מנתח ממצאי אימות',
+   tools:['Carrd.co','Google Analytics'],group:'צוותי חדשנות',milestone:true},
+
+  // ── Phase 3 ──────────────────────────────────────────────────────────────
+  {n:21,phase:3,title:'הגדרת המוצר הסופי',color:'#db2777',bg:'#fce7f3',
+   goals:['החלטה סופית על תכונות','בניית Roadmap','הגדרת הצלחה'],
+   activities:['PRD קצר','Sprint Planning ל-10 מפגשים','הגדרת KPIs'],
+   example:'📋 PRD: מי, מה, למה, מתי — 1 עמוד | Claude כותב PRD',
+   tools:['Notion','Claude כמסייע כתיבה'],group:'צוותי חדשנות'},
+
+  {n:22,phase:3,title:'עיצוב UX — חוויה שמרגישה נכון',color:'#db2777',bg:'#fce7f3',
+   goals:['עיצוב מסכים מוגמר','בדיקת זרימת משתמש','מיתוג בסיסי'],
+   activities:['High Fidelity Mockup ב-Figma','User Flow','שם, לוגו, צבעים'],
+   example:'🎨 Figma → Prototype → Test. Claude מעיין ומציע שיפורי UX',
+   tools:['Figma','Canva','Claude ל-UX feedback'],group:'צוותי חדשנות'},
+
+  {n:23,phase:3,title:'פיתוח — שבוע עבודה אינטנסיבי',color:'#db2777',bg:'#fce7f3',
+   goals:['התקדמות בפיתוח','פתרון חסמים טכניים','שיתוף ידע'],
+   activities:['עבודה ממוקדת לפי תחומים','Stand-up 5 דקות','Debugging משותף'],
+   example:'💻 Claude Code מזרז פיתוח: "בנה לי [X] ב-HTML/Python"',
+   tools:['GitHub','VS Code','Claude Code'],group:'צוותי חדשנות'},
+
+  {n:24,phase:3,title:'מחקר שוק עמוק — מספרים',color:'#db2777',bg:'#fce7f3',
+   goals:['הבנת גודל השוק','Go-to-Market','הגדרת מחיר'],
+   activities:['TAM/SAM/SOM','ערוצי הפצה','Pricing Strategy'],
+   example:'💰 Claude + NotebookLM מסייעים בחקר שוק וניתוח מתחרים',
+   tools:['Google Trends','Claude לחקר שוק'],group:'צוותי חדשנות'},
+
+  {n:25,phase:3,title:'הדגמת MVP — לפני קהל 🏆',color:'#db2777',bg:'#fce7f3',
+   goals:['הצגת מוצר עובד','פידבק מקצועי אחרון','מה לשפר לפני Finale'],
+   activities:['Demo 7 דק׳ לכל צוות','פידבק מנחים + מוזמנים','עדכוני עדיפות'],
+   example:'🏆 אבן דרך 5: Demo Day ביניים — מוצר חי',
+   tools:['המוצר עצמו','Slides'],group:'צוותי חדשנות',milestone:true},
+
+  {n:26,phase:3,title:'מודל עסקי — איך נרוויח כסף?',color:'#db2777',bg:'#fce7f3',
+   goals:['מודל עסקי ריאליסטי','מחזור הכנסות','Break-even'],
+   activities:['Lean Canvas מלא','Unit Economics','סיפור: "שנה ראשונה שלנו"'],
+   example:'📊 Lean Canvas: 9 תיבות, 1 עמוד | Claude עוזר לנסח',
+   tools:['Lean Canvas Template','Claude'],group:'צוותי חדשנות'},
+
+  {n:27,phase:3,title:'בניית מצגת הפיץ׳',color:'#db2777',bg:'#fce7f3',
+   goals:['Pitch Deck מקצועי','תרגול הצגה','עיצוב ויזואלי חזק'],
+   activities:['10 שקפים × 3 דקות','עיצוב + כתיבה','רסיטל ראשון + ביקורת'],
+   example:'🎤 Y Combinator style: 10 slides, 3 minutes | Claude עוזר לכתוב',
+   tools:['Canva','Claude לכתיבה'],group:'צוותי חדשנות'},
+
+  {n:28,phase:3,title:'חזרה וחידוד — Pitch Practice',color:'#db2777',bg:'#fce7f3',
+   goals:['שיפור הצגה','ביטחון עצמי','טיפול בשאלות קשות'],
+   activities:['2× חזרה מלאה','סימולציית שאלות משקיעים','פידבק ספציפי'],
+   example:'❓ שאלות קשות: "למה אתם?" | "מה אם גוגל יעשו את זה?"',
+   tools:['מצלמה','Slides'],group:'צוותי חדשנות'},
+
+  {n:29,phase:3,title:'הכנות לפינאל — הכל מוכן?',color:'#db2777',bg:'#fce7f3',
+   goals:['וידוא הכל מוכן','לוגיסטיקה','נשימה עמוקה'],
+   activities:['Checklist: מוצר ✓ פיץ׳ ✓ גיבוי ✓','חומרים פיזיים','שיחה קבוצתית'],
+   example:'📋 20-item checklist לפני יום ההגשה',
+   tools:['Checklist','Drive'],group:'כולם'},
+
+  {n:30,phase:3,title:'🏆 Demo Day — יום הסיום הגדול',color:'#db2777',bg:'#fce7f3',
+   goals:['הצגה מרשימה','חגיגת ההישגים','השראה לדרך הבאה'],
+   activities:['פתיחה ממנהל התוכנית','10 פיץ׳ × 5 דקות','שאלות קהל','פרסים + מסיבה'],
+   example:'🌟 קהל: הורים, מנהלי בתי ספר, משקיעים, אנשי תעשייה',
+   tools:['Stage setup','Live demo stations'],group:'כולם',milestone:true},
+];
+
+const phaseColors = {1:'#2563eb',2:'#7c3aed',3:'#db2777'};
+const phaseNames = {1:'שלב 1: גילוי',2:'שלב 2: התמחות',3:'שלב 3: פיתוח מוצר'};
+const DOMAINS = [
+  {key:'sci', label:'🔬 חקר מדעי', activeClass:'active-sci', color:'#2563eb'},
+  {key:'3d',  label:'🖨️ תלת מימד', activeClass:'active-3d',  color:'#7c3aed'},
+  {key:'ai',  label:'🤖 AI',        activeClass:'active-ai',  color:'#db2777'},
+  {key:'pm',  label:'📦 ניהול מוצר',activeClass:'active-pm',  color:'#ea580c'},
+];
+let activeDomain = 'ai';
+
+function domainTabsHtml() {
+  return `<div class="domain-tabs" style="margin-bottom:16px;">
+    ${DOMAINS.map(d=>`<button class="domain-tab ${activeDomain===d.key?d.activeClass:''}" onclick="setDomain('${d.key}')">${d.label}</button>`).join('')}
+  </div>`;
+}
+
+function setDomain(key) {
+  activeDomain = key;
+  const tabs = document.querySelectorAll('.domain-tab');
+  DOMAINS.forEach((d,i)=>{ tabs[i]&&tabs[i].classList.toggle(d.activeClass, d.key===key); });
+  // re-render domain notes in all open sessions
+  document.querySelectorAll('.domain-note-area').forEach(el=>{
+    const n = +el.dataset.n;
+    const s = SESSIONS.find(x=>x.n===n);
+    el.innerHTML = getDomainNoteHtml(s);
+  });
+  // re-render lesson plans
+  document.querySelectorAll('.lp-area').forEach(el=>{
+    const n = +el.dataset.n;
+    el.innerHTML = getLPHtml(n);
+  });
+}
+
+function getDomainNoteHtml(s) {
+  if (!s.domainNotes) return '';
+  const note = s.domainNotes[activeDomain] || s.domainNotes.all || '';
+  if (!note) return '';
+  const d = DOMAINS.find(x=>x.key===activeDomain);
+  return `<div style="margin-top:10px;padding:10px 14px;border-radius:10px;border-right:4px solid ${d?.color||'#64748b'};background:#f8fafc;font-size:14px;">${note}</div>`;
+}
+
+function getLPHtml(n) {
+  const lp = getLessonPlan(n, activeDomain);
+  if (!lp) return `<div style="padding:12px;color:#94a3b8;font-size:13px;">מערך שיעור מפורט יתווסף בקרוב</div>`;
+  return `
+    <div class="lp-header">📋 ${lp.title}</div>
+    <div class="lp-body">
+      ${lp.blocks.map(b=>`
+        <div class="lp-block">
+          <div class="lp-block-title">
+            <span>${b.title}</span>
+            <span class="time">${b.time}</span>
+          </div>
+          ${b.steps.map((step,i)=>`<div class="lp-step"><div class="step-num">${i+1}</div><div>${step}</div></div>`).join('')}
+        </div>
+      `).join('')}
+      ${lp.note?`<div class="lp-block"><div class="lp-note">💡 הערה למנחה: ${lp.note}</div></div>`:''}
+    </div>`;
+}
+
+function renderSessions(filter) {
+  const list = filter==='all' ? SESSIONS :
+    filter==='p1' ? SESSIONS.filter(s=>s.phase===1) :
+    filter==='p2' ? SESSIONS.filter(s=>s.phase===2) :
+    SESSIONS.filter(s=>s.phase===3);
+
+  document.getElementById('sessions-container').innerHTML = domainTabsHtml() + list.map(s=>`
+    <div class="session-card" id="sc${s.n}">
+      <div class="session-header" onclick="toggleSession(${s.n})" style="cursor:pointer;">
+        <div class="session-num" style="background:${s.color};">${s.n}</div>
+        <div style="flex:1;">
+          <div class="session-title">${s.title}</div>
+          <div style="font-size:12px;color:var(--gray);">${phaseNames[s.phase]} · ${s.group}</div>
+        </div>
+        ${s.milestone?'<span style="font-size:18px;">🏆</span>':''}
+        <div class="session-toggle" id="tog${s.n}">▼</div>
+      </div>
+      <div class="session-body" id="body${s.n}">
+        <div class="session-body-inner">
+          <div class="session-col">
+            <h4>🎯 מטרות המפגש</h4>
+            <ul style="color:#1e293b;">${s.goals.map(g=>`<li style="color:${s.color};">${g}</li>`).join('')}</ul>
+          </div>
+          <div class="session-col">
+            <h4>🛠️ פעילויות</h4>
+            <ul style="color:#1e293b;">${s.activities.map(a=>`<li>${a}</li>`).join('')}</ul>
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="ex-title">💡 דוגמה חיה / השראה</div>
+          <div style="font-size:14px;">${s.example}</div>
+        </div>
+        ${s.tools?`<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">${s.tools.map(t=>`<span class="badge" style="background:${s.bg};color:${s.color};">🔧 ${t}</span>`).join('')}</div>`:''}
+        <div class="domain-note-area" data-n="${s.n}">${getDomainNoteHtml(s)}</div>
+        <div style="margin-top:12px;">
+          <button class="lesson-btn" onclick="toggleLP(${s.n})">📋 מערך שיעור מלא ▼</button>
+          <div class="lesson-plan" id="lp${s.n}">
+            <div class="lp-area" data-n="${s.n}"></div>
+          </div>
+        </div>
+        ${getProgressHtml(s)}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleSession(n) {
+  const body = document.getElementById('body'+n);
+  const tog  = document.getElementById('tog'+n);
+  const open = body.classList.toggle('open');
+  tog.style.transform = open ? 'rotate(180deg)' : '';
+}
+
+function toggleLP(n) {
+  const lp = document.getElementById('lp'+n);
+  const open = lp.classList.toggle('open');
+  if (open) {
+    lp.querySelector('.lp-area').innerHTML = getLPHtml(n);
+  }
+  const btn = lp.previousElementSibling;
+  btn.textContent = open ? '📋 מערך שיעור מלא ▲' : '📋 מערך שיעור מלא ▼';
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    b.classList.toggle('active', b.getAttribute('onclick').includes(`'${tab}'`));
+  });
+  renderSessions(tab);
+}
+
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active', a.getAttribute('onclick')?.includes(id));
+  });
+}
+
+// ─── PROGRESS DATA (localStorage) ──────────────────────────────────────────
+// ─── SERVER-BACKED PROGRESS ──────────────────────────────────────────────────
+let _prog = {}; // cache: { [n]: { statuses:{}, notes:{}, generalNotes:'', updatedAt:'' } }
+
+async function fetchProgress() {
+  try {
+    const r = await fetch('/api/progress');
+    const { rows, general } = await r.json();
+    _prog = {};
+    rows.forEach(row => {
+      if (!_prog[row.session_id]) _prog[row.session_id] = { statuses:{}, notes:{}, generalNotes:'', updatedAt:'' };
+      _prog[row.session_id].statuses[row.domain] = row.status;
+      _prog[row.session_id].notes[row.domain] = row.notes;
+      _prog[row.session_id].updatedAt = row.updated_at;
+    });
+    general.forEach(row => {
+      if (!_prog[row.session_id]) _prog[row.session_id] = { statuses:{}, notes:{}, generalNotes:'', updatedAt:'' };
+      _prog[row.session_id].generalNotes = row.general_notes;
+      _prog[row.session_id].updatedAt = row.updated_at || _prog[row.session_id].updatedAt;
+    });
+  } catch(e) { console.error('fetchProgress error', e); }
+}
+
+function loadProgress() { return _prog; }
+
+function getSessionProg(n) {
+  return _prog[n] || { statuses:{}, notes:{}, generalNotes:'', updatedAt:'' };
+}
+
+async function setSessionStatus(n, domain, status) {
+  if (!_prog[n]) _prog[n] = { statuses:{}, notes:{}, generalNotes:'', updatedAt:'' };
+  _prog[n].statuses[domain] = status;
+  refreshStatusBtns(n, domain, status);
+  refreshSessionBadge(n);
+  try {
+    const notes = _prog[n].notes[domain] || '';
+    await fetch('/api/progress', { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ session_id:n, domain, status, notes }) });
+  } catch(e) { console.error('save status error', e); }
+}
+
+async function setSessionNote(n, domain) {
+  const ta = document.getElementById(`note_${n}_${domain}`);
+  if (!ta) return;
+  if (!_prog[n]) _prog[n] = { statuses:{}, notes:{}, generalNotes:'', updatedAt:'' };
+  const saved = document.getElementById(`saved_${n}_${domain}`);
+  try {
+    if (domain === 'general') {
+      _prog[n].generalNotes = ta.value;
+      await fetch('/api/progress/general', { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ session_id:n, general_notes: ta.value }) });
+    } else {
+      if (!_prog[n].notes) _prog[n].notes = {};
+      _prog[n].notes[domain] = ta.value;
+      const status = _prog[n].statuses[domain] || 'pending';
+      await fetch('/api/progress', { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ session_id:n, domain, status, notes: ta.value }) });
+    }
+    if (saved) { saved.style.display='inline'; setTimeout(()=>saved.style.display='none',1800); }
+  } catch(e) { console.error('save note error', e); }
+}
+
+function refreshStatusBtns(n, domain, activeStatus) {
+  ['pending','progress','done'].forEach(s=>{
+    const btn = document.getElementById(`sbtn_${n}_${domain}_${s}`);
+    if (!btn) return;
+    btn.classList.toggle('active', s===activeStatus);
+  });
+}
+
+function refreshSessionBadge(n) {
+  const prog = getSessionProg(n);
+  const s = SESSIONS.find(x=>x.n===n);
+  if (!s) return;
+  const domains = s.group==='כולם'||s.group==='אישי' ? ['all'] : DOMAINS.map(d=>d.key);
+  const statuses = domains.map(dk=>prog.statuses[dk]||'pending');
+  const badge = document.getElementById(`sbadge_${n}`);
+  if (!badge) return;
+  const allDone = statuses.every(st=>st==='done');
+  const anyProg = statuses.some(st=>st==='progress'||st==='done');
+  badge.textContent = allDone ? '✅' : anyProg ? '🔄' : '○';
+  badge.style.color = allDone ? '#16a34a' : anyProg ? '#f59e0b' : '#94a3b8';
+}
+
+// ─── PROGRESS SECTION HTML ──────────────────────────────────────────────────
+function getProgressHtml(s) {
+  const prog = getSessionProg(s.n);
+  const isGeneral = s.group==='כולם'||s.group==='אישי'||s.group==='צוותי חדשנות'||s.group.includes('כולם');
+  const domainRows = isGeneral
+    ? [{ key:'all', label:'כל הקבוצות', color:'#0f172a' }]
+    : DOMAINS.map(d=>({ key:d.key, label:d.label, color:d.color }));
+
+  const statusLabels = { pending:'⬜ טרם התחיל', progress:'🔄 בתהליך', done:'✅ הושלם' };
+
+  return `
+  <div class="prog-section">
+    <div class="prog-section-header" onclick="toggleProgSection(${s.n})">
+      <span>📌 סימון התקדמות והערות מורה</span>
+      <span id="sbadge_${s.n}" style="font-size:16px;transition:all .2s;">○</span>
+    </div>
+    <div class="prog-section-body" id="prog_${s.n}">
+      ${domainRows.map(dr=>`
+        <div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #f1f5f9;">
+          <div class="status-row">
+            <span class="status-label" style="color:${dr.color};">${dr.label}</span>
+            ${['pending','progress','done'].map(st=>`
+              <button id="sbtn_${s.n}_${dr.key}_${st}"
+                class="status-btn s-${st} ${(prog.statuses[dr.key]||'pending')===st?'active':''}"
+                onclick="setSessionStatus(${s.n},'${dr.key}','${st}')">
+                ${statusLabels[st]}
+              </button>`).join('')}
+          </div>
+          <textarea id="note_${s.n}_${dr.key}" class="notes-area"
+            placeholder="הערות מורה עבור ${dr.label}...">${(prog.notes[dr.key]||'')}</textarea>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <button class="notes-save-btn" onclick="setSessionNote(${s.n},'${dr.key}')">💾 שמור הערה</button>
+            <span id="saved_${s.n}_${dr.key}" class="notes-saved">✓ נשמר!</span>
+          </div>
+        </div>`).join('')}
+      <div style="margin-top:4px;">
+        <label style="font-size:12px;font-weight:700;color:#64748b;">📝 הערה כללית למפגש</label>
+        <textarea id="note_${s.n}_general" class="notes-area" style="min-height:48px;"
+          placeholder="הערות כלליות למפגש...">${prog.generalNotes||''}</textarea>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="notes-save-btn" onclick="setSessionNote(${s.n},'general')">💾 שמור</button>
+          <span id="saved_${s.n}_general" class="notes-saved">✓ נשמר!</span>
+          ${prog.updatedAt?`<span style="font-size:11px;color:#94a3b8;">עודכן: ${prog.updatedAt}</span>`:''}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleProgSection(n) {
+  const body = document.getElementById('prog_'+n);
+  body.classList.toggle('open');
+}
+
+// ─── INIT ───────────────────────────────────────────────────────────────────
+(async () => {
+  await fetchProgress();
+  renderSessions('all');
+  setTimeout(()=>{ SESSIONS.forEach(s=>refreshSessionBadge(s.n)); }, 50);
+})();
+
+// ─── ADMIN PASSWORD MODAL ──────────────────────────────────────────────────
+let adminAuthed = false;
+
+function openReport() {
+  if (adminAuthed) { buildReport(); document.getElementById('reportPage').style.display='block'; document.body.style.overflow='hidden'; return; }
+  document.getElementById('pwModal').style.display='flex';
+  setTimeout(()=>document.getElementById('pwInput').focus(), 100);
+}
+async function verifyPassword() {
+  const pw = document.getElementById('pwInput').value;
+  const errEl = document.getElementById('pwErr');
+  try {
+    const r = await fetch('/api/admin/verify', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({password: pw}) });
+    const j = await r.json();
+    if (j.ok) {
+      adminAuthed = true;
+      document.getElementById('pwModal').style.display='none';
+      document.getElementById('pwInput').value='';
+      buildReport();
+      document.getElementById('reportPage').style.display='block';
+      document.body.style.overflow='hidden';
+    } else {
+      errEl.textContent = '❌ סיסמה שגויה';
+    }
+  } catch { errEl.textContent = 'שגיאת חיבור'; }
+}
+function closePwModal() {
+  document.getElementById('pwModal').style.display='none';
+  document.getElementById('pwInput').value='';
+  document.getElementById('pwErr').textContent='';
+}
+function closeReport() {
+  document.getElementById('reportPage').style.display='none';
+  document.body.style.overflow='';
+}
+function switchReportTab(tab) {
+  document.querySelectorAll('.report-tab').forEach((b,i)=>{
+    const tabs=['general','domain','notes'];
+    b.classList.toggle('active', tabs[i]===tab);
+  });
+  document.querySelectorAll('.report-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('rep-'+tab).classList.add('active');
+}
+
+function buildReport() {
+  const prog = loadProgress();
+  const phaseColors = {1:'#2563eb',2:'#7c3aed',3:'#db2777'};
+  const phaseNames = {1:'שלב 1: גילוי (1–8)',2:'שלב 2: התמחות (9–20)',3:'שלב 3: פיתוח מוצר (21–30)'};
+
+  // ── General stats ──
+  let totalSessions=0, totalDone=0, totalProg=0;
+  const phaseStats = {1:{total:0,done:0,prog:0},2:{total:0,done:0,prog:0},3:{total:0,done:0,prog:0}};
+
+  SESSIONS.forEach(s=>{
+    const sp = prog[s.n]||{};
+    const isGeneral = ['כולם','אישי'].some(g=>s.group.includes(g));
+    const domainKeys = isGeneral ? ['all'] : DOMAINS.map(d=>d.key);
+    domainKeys.forEach(dk=>{
+      totalSessions++;
+      phaseStats[s.phase].total++;
+      const st = sp.statuses?.[dk]||'pending';
+      if (st==='done') { totalDone++; phaseStats[s.phase].done++; }
+      if (st==='progress') { totalProg++; phaseStats[s.phase].prog++; }
+    });
+  });
+
+  const pct = totalSessions ? Math.round(totalDone/totalSessions*100) : 0;
+
+  document.getElementById('rep-stats').innerHTML = `
+    <div class="report-stat"><div class="rs-num" style="color:#2563eb;">${pct}%</div><div class="rs-lbl">הושלם כולל</div></div>
+    <div class="report-stat"><div class="rs-num" style="color:#16a34a;">${totalDone}</div><div class="rs-lbl">מפגשים הושלמו</div></div>
+    <div class="report-stat"><div class="rs-num" style="color:#f59e0b;">${totalProg}</div><div class="rs-lbl">בתהליך</div></div>
+    <div class="report-stat"><div class="rs-num" style="color:#94a3b8;">${totalSessions-totalDone-totalProg}</div><div class="rs-lbl">טרם התחיל</div></div>
+    <div class="report-stat"><div class="rs-num" style="color:#0f172a;">${totalSessions}</div><div class="rs-lbl">סה"כ מפגשים</div></div>`;
+
+  // Phase breakdown
+  document.getElementById('rep-phases').innerHTML = [1,2,3].map(ph=>{
+    const ps = phaseStats[ph];
+    const phasePct = ps.total ? Math.round(ps.done/ps.total*100) : 0;
+    const phaseSessions = SESSIONS.filter(s=>s.phase===ph);
+    return `
+    <div class="report-phase">
+      <div class="report-phase-header" style="background:${phaseColors[ph]}15;border-right:4px solid ${phaseColors[ph]};">
+        <span style="color:${phaseColors[ph]};">${phaseNames[ph]}</span>
+        <span style="font-size:13px;color:#64748b;">${ps.done}/${ps.total} הושלמו (${phasePct}%)</span>
+      </div>
+      <div style="padding:8px 16px 0;"><div class="domain-bar-wrap"><div class="domain-bar" style="width:${phasePct}%;background:${phaseColors[ph]};"></div></div></div>
+      <table class="report-table">
+        <tr><th>מפגש</th><th>נושא</th><th>קבוצה</th><th>סטטוס</th><th>עודכן</th></tr>
+        ${phaseSessions.map(s=>{
+          const sp = prog[s.n]||{};
+          const isGen = ['כולם','אישי'].some(g=>s.group.includes(g));
+          const dks = isGen ? ['all'] : DOMAINS.map(d=>d.key);
+          const statuses = dks.map(dk=>sp.statuses?.[dk]||'pending');
+          const allDone = statuses.every(st=>st==='done');
+          const anyProg = statuses.some(st=>st==='progress'||st==='done');
+          const pillClass = allDone?'pill-done':anyProg?'pill-progress':'pill-pending';
+          const pillText = allDone?'✅ הושלם':anyProg?'🔄 בתהליך':'⬜ טרם התחיל';
+          return `<tr>
+            <td style="font-weight:800;color:${phaseColors[ph]};">${s.n}</td>
+            <td>${s.title.replace('🏆','').trim()}</td>
+            <td style="font-size:12px;color:#64748b;">${s.group}</td>
+            <td><span class="status-pill ${pillClass}">${pillText}</span></td>
+            <td style="font-size:11px;color:#94a3b8;">${sp.updatedAt||'—'}</td>
+          </tr>`;
+        }).join('')}
+      </table>
+    </div>`;
+  }).join('');
+
+  // ── Domain report ──
+  const domainColors = {sci:'#2563eb','3d':'#7c3aed',ai:'#db2777',pm:'#ea580c'};
+  const domainNames = {sci:'🔬 חקר מדעי','3d':'🖨️ תלת מימד',ai:'🤖 AI',pm:'📦 ניהול מוצר'};
+  const phase1Sessions = SESSIONS.filter(s=>s.phase===1);
+
+  document.getElementById('rep-domain-content').innerHTML = `
+    <div style="margin-bottom:20px;">
+      <table class="report-table" style="border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;">
+        <tr>
+          <th>מפגש</th>
+          ${DOMAINS.map(d=>`<th style="color:${domainColors[d.key]};">${d.label}</th>`).join('')}
+          <th>עודכן</th>
+        </tr>
+        ${SESSIONS.map(s=>{
+          const sp = prog[s.n]||{};
+          const isGen = ['כולם','אישי'].some(g=>s.group.includes(g));
+          return `<tr>
+            <td style="font-weight:700;">${s.n}. ${s.title.substring(0,25).replace('🏆','').trim()}...</td>
+            ${DOMAINS.map(d=>{
+              if (isGen) {
+                const st = sp.statuses?.['all']||'pending';
+                const pc=st==='done'?'pill-done':st==='progress'?'pill-progress':'pill-pending';
+                const pt=st==='done'?'✅':st==='progress'?'🔄':'○';
+                return `<td colspan="1"><span class="status-pill ${pc}">${pt}</span></td>`;
+              }
+              const st = sp.statuses?.[d.key]||'pending';
+              const pc=st==='done'?'pill-done':st==='progress'?'pill-progress':'pill-pending';
+              const pt=st==='done'?'✅':st==='progress'?'🔄':'○';
+              return `<td><span class="status-pill ${pc}">${pt}</span></td>`;
+            }).join('')}
+            <td style="font-size:11px;color:#94a3b8;">${sp.updatedAt||'—'}</td>
+          </tr>`;
+        }).join('')}
+      </table>
+    </div>
+    <div class="report-stat-grid">
+      ${DOMAINS.map(d=>{
+        const relevant = SESSIONS.filter(s=>!['כולם','אישי'].some(g=>s.group.includes(g)));
+        const total = relevant.length;
+        const done = relevant.filter(s=>(prog[s.n]?.statuses?.[d.key]||'pending')==='done').length;
+        const inprog = relevant.filter(s=>(prog[s.n]?.statuses?.[d.key]||'pending')==='progress').length;
+        const dpct = total ? Math.round(done/total*100) : 0;
+        return `<div class="report-stat" style="border-top:3px solid ${domainColors[d.key]};">
+          <div style="font-size:20px;font-weight:900;color:${domainColors[d.key]};">${dpct}%</div>
+          <div style="font-size:13px;font-weight:700;margin:4px 0;">${domainNames[d.key]}</div>
+          <div class="domain-bar-wrap"><div class="domain-bar" style="width:${dpct}%;background:${domainColors[d.key]};"></div></div>
+          <div style="font-size:11px;color:#64748b;margin-top:6px;">${done} הושלמו · ${inprog} בתהליך · ${total-done-inprog} ממתינים</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  // ── Notes report ──
+  const withNotes = SESSIONS.filter(s=>{
+    const sp = prog[s.n];
+    if (!sp) return false;
+    if (sp.generalNotes) return true;
+    return Object.values(sp.notes||{}).some(n=>n);
+  });
+  document.getElementById('rep-notes-content').innerHTML = withNotes.length===0
+    ? `<div style="text-align:center;padding:48px;color:#94a3b8;">
+        <div style="font-size:40px;margin-bottom:12px;">📝</div>
+        <div>אין עדיין הערות מורה. הוסף הערות בתוך כל מפגש.</div>
+       </div>`
+    : `<table class="report-table" style="border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;">
+        <tr><th>מפגש</th><th>תחום</th><th>הערה</th><th>תאריך</th></tr>
+        ${withNotes.flatMap(s=>{
+          const sp = prog[s.n];
+          const rows = [];
+          if (sp.generalNotes) rows.push(`<tr><td style="font-weight:700;">${s.n}</td><td>כללי</td><td>${sp.generalNotes}</td><td style="font-size:11px;color:#94a3b8;">${sp.updatedAt||'—'}</td></tr>`);
+          Object.entries(sp.notes||{}).forEach(([dk,note])=>{
+            if (note) rows.push(`<tr><td style="font-weight:700;">${s.n}</td><td style="font-size:12px;">${DOMAINS.find(d=>d.key===dk)?.label||dk}</td><td>${note}</td><td style="font-size:11px;color:#94a3b8;">${sp.updatedAt||'—'}</td></tr>`);
+          });
+          return rows;
+        }).join('')}
+      </table>`;
+}
+
+// Expose to window for onclick handlers
+window.setSessionStatus  = setSessionStatus;
+window.setSessionNote    = setSessionNote;
+window.toggleProgSection = toggleProgSection;
+window.openReport        = openReport;
+window.closeReport       = closeReport;
+window.switchReportTab   = switchReportTab;
+window.verifyPassword    = verifyPassword;
+window.closePwModal      = closePwModal;
+</script>
+
+</body>
+</html>
