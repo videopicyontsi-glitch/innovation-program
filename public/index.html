@@ -220,6 +220,8 @@ footer{background:#1e293b;color:#94a3b8;text-align:center;padding:32px;font-size
 .domain-tab.active-3d{background:#ede9fe;border-color:#7c3aed;color:#5b21b6;}
 .domain-tab.active-ai{background:#fce7f3;border-color:#db2777;color:#9d174d;}
 .domain-tab.active-pm{background:#ffedd5;border-color:#ea580c;color:#9a3412;}
+.domain-tab.active-biz{background:#d1fae5;border-color:#059669;color:#064e3b;}
+.domain-instructor{font-size:10px;font-weight:600;opacity:.75;display:block;margin-top:1px;}
 
 @media(max-width:768px){
   .phase{grid-template-columns:1fr;}
@@ -777,7 +779,15 @@ const LP = {
       {title:'Deconstruct אפליקציה',time:'0:25–1:00',steps:['הורדת אפליקציה פשוטה (למשל: Splitwise)','ניתוח: מי הלקוח? מה הבעיה? מה הפתרון? איך מרוויחים?','מילוי "User Story": "כ-[מי], אני רוצה ל-[מה], כדי ל-[למה]"']},
       {title:'בניית מוצר דמיוני',time:'1:00–1:30',steps:['כל תלמיד בוחר בעיה שמעצבנת אותו','מילוי: מי יתן על זה כסף? כמה? למה?','סקיצה ראשונה של המסך הראשי']},
       {title:'שיתוף',time:'1:30–1:40',steps:['3 תלמידים מציגים את הרעיון שלהם','פידבק על פי: "אהבתי / שאלה / הצעה"']},
-    ],note:'📦 הדגישו: Product Manager לא כותב קוד — הוא מבין בעיות ומוביל פתרונות'}
+    ],note:'📦 הדגישו: Product Manager לא כותב קוד — הוא מבין בעיות ומוביל פתרונות'},
+    biz: {title:'מערך שיעור — יזמות: מה זה עסק?',blocks:[
+      {title:'עסק = ערך + כסף',time:'0:00–0:25',steps:['שאלה: "מה ההבדל בין תחביב לעסק?"','דוגמה: אפיית עוגות בבית ← חנות עוגות','נוסחה: עסק = פותר בעיה + מישהו משלם עליה']},
+      {title:'Deconstruct עסק',time:'0:25–1:00',steps:['כל תלמיד בוחר עסק שאוהב (קפה, חנות, אפליקציה)','ניתוח: מה מוכרים? למי? ב-כמה? איפה קונים?','מה ה-Magic שגורם ללקוחות לחזור?']},
+      {title:'רעיון עסקי ראשון',time:'1:00–1:35',steps:['כל תלמיד כותב: "בעיה שמעצבנת אותי + רעיון פתרון"','שאלה: "מי ישלם על זה? כמה?"','שיתוף בזוגות: "האם הייתי קונה את זה?"']},
+      {title:'סיכום',time:'1:35–1:40',steps:['מנחה: "עסק טוב = פותר כאב + מאפשר רווח — נוסחה פשוטה"']},
+    ],note:'💼 חירואי: הכינו 3 דוגמאות עסקים ישראליים מוצלחים של צעירים'},
+
+
   },
 
   // Session 3
@@ -806,7 +816,15 @@ const LP = {
       {title:'Empathy Map',time:'0:20–0:55',steps:['הצגת מפת אמפתיה: Thinks / Feels / Does / Says','תרגיל: ממלאים מפה על "תלמיד בן 15 בבוקר לפני מבחן"','שיתוף: מה גילינו שלא ידענו?']},
       {title:'ראיון מהיר',time:'0:55–1:35',steps:['זוגות: אחד ראיון, אחד כותב','שאלות פתוחות: "ספר לי על פעם שהיה לך קשה עם..."','5 שאלות, 10 דקות, אחר כך מחליפים']},
       {title:'ממצאים',time:'1:35–1:40',steps:['כל זוג: "דבר אחד שהפתיע אותנו"']},
-    ],note:'📝 לימדו ראיון פתוח — "למה?" הוא השאלה החשובה ביותר'}
+    ],note:'📝 לימדו ראיון פתוח — "למה?" הוא השאלה החשובה ביותר'},
+    biz: {title:'מערך שיעור — חקר שוק: מי הלקוח?',blocks:[
+      {title:'שוק = קבוצת אנשים עם בעיה',time:'0:00–0:25',steps:['"לא כולם הם הלקוח שלך" — דוגמה: נייקי לא מוכרת לכולם','הגדרת Persona: גיל, עיסוק, כאב, מה הוא עושה כשמשעמם','תרגיל: "הלקוח האידיאלי של הרעיון שלי הוא..."']},
+      {title:'סקר שוק ראשון',time:'0:25–1:05',steps:['בניית סקר Google Forms — 5 שאלות בלבד','שאלות: כמה תשלם? מה מעצבן אותך? מה הייתה קונה?','שליחה ל-10 חברים וקבלת תשובות בזמן אמת']},
+      {title:'ניתוח תוצאות',time:'1:05–1:35',steps:['ניתוח ב-Google Sheets: מה כולם ענו?','מה הפתיע? מה אישר את ההנחות?','עדכון Persona על בסיס הנתונים']},
+      {title:'סיכום',time:'1:35–1:40',steps:['מנחה: "כל עסק שנכשל — לא שמע את הלקוח שלו"']},
+    ],note:'📊 הכינו תבנית Persona מוכנה + דוגמה של סקר שוק פשוט'},
+
+
   },
 
   // Session 4
@@ -834,7 +852,14 @@ const LP = {
       {title:'בחירת מוצר',time:'0:00–0:15',steps:['כל תלמיד בוחר מוצר/אפליקציה שאוהב','הגדרה: "אני ה-PM של X — אני צריך להבין הכל"']},
       {title:'ניתוח מעמיק',time:'0:15–1:10',steps:['מילוי Deconstruct Sheet: בעיה / לקוח / פתרון / מתחרים / הכנסות','ציור journey map של המשתמש','זיהוי: מה שלוש הנקודות החלשות?']},
       {title:'הצגה + פידבק',time:'1:10–1:40',steps:['4 דקות לכל תלמיד: "אם הייתי PM של X, הייתי משנה..."','קהל: "מסכים / לא מסכים / למה?"']},
-    ],note:'📦 הכינו תבנית Deconstruct Sheet מוכנה לחלוקה'}
+    ],note:'📦 הכינו תבנית Deconstruct Sheet מוכנה לחלוקה'},
+    biz: {title:'מערך שיעור — מיני פיץ׳: הצגת רעיון עסקי',blocks:[
+      {title:'מה זה פיץ׳?',time:'0:00–0:20',steps:['"פיץ׳ = 60 שניות שמשנות את חיייך"','דוגמת Shark Tank ישראלי — קליפ 3 דק׳','מבנה: בעיה → פתרון → שוק → איך מרוויחים → מה אני צריך']},
+      {title:'הכנת הפיץ׳',time:'0:20–1:00',steps:['כל תלמיד מכין 3 שקפים: בעיה / פתרון / מודל עסקי','שיחת חזרה עם חבר: "הסבר לי בלי שקפים"','שיפור: מה לא ברור? מה מרגש?']},
+      {title:'Pitch Time!',time:'1:00–1:40',steps:['כל תלמיד — 2 דקות פיץ׳ + שאלה אחת מהקהל','קהל ממלא כרטיס: "האם הייתי משקיע? למה?"','מנחה נותן פידבק: "הדבר הכי חזק / הדבר שהייתי משנה"']},
+    ],note:'🏆 אבן דרך 1 — הקליטו את הפיץ׳ בסרטון! ישמש לפורטפוליו'},
+
+
   },
 
   // Session 5 — cross-group
@@ -874,7 +899,15 @@ const LP = {
       {title:'Matrix Analysis',time:'0:20–1:00',steps:['כל תלמיד בוחר תחום מוצר','מיפוי 4 מתחרים × 5 קריטריונים בגוגל שיטס','מה לוקחים מהם? מה אנחנו נעשה שונה?']},
       {title:'Blue Ocean',time:'1:00–1:30',steps:['מונח: "Blue Ocean" — מרחב שאין בו תחרות','כל תלמיד מזהה: "האזור הכחול של המוצר שלי"','מצגת: "אנחנו היחידים ש..."']},
       {title:'שיתוף',time:'1:30–1:40',steps:['3 דקות לתלמיד — הצגת ה-Blue Ocean שמצאו']},
-    ],note:'📊 הכינו Google Sheets Template של Competitive Matrix לחלוקה'}
+    ],note:'📊 הכינו Google Sheets Template של Competitive Matrix לחלוקה'},
+    biz: {title:'מערך שיעור — ניתוח מתחרים',blocks:[
+      {title:'מתחרה = אפשרות אחרת שיש ללקוח',time:'0:00–0:20',steps:['"אם הלקוח לא קונה ממך — מה הוא עושה במקום?"','מתחרים ישירים vs. עקיפים — דוגמה: ואלה vs. Google vs. שאלת חבר','חוק: "אל תתעלם ממתחרים — למד מהם"']},
+      {title:'מיפוי מתחרים',time:'0:20–1:00',steps:['כל תלמיד ממפה 5 מתחרים לרעיון שלו','טבלת השוואה: מחיר / קהל / יתרון / חולשה','SWOT ראשוני: חוזקות / חולשות / הזדמנויות / איומים']},
+      {title:'Blue Ocean — הרווח הוא בהבדל',time:'1:00–1:35',steps:['"שלה לא להתחרות — תמצא פינה שאין בה תחרות"','דוגמה: Waze לא תחרה ב-Google Maps — הוסיף קהילה','כל תלמיד: "מה ההבדל שלי? מה אני עושה שאף אחד לא עושה?"']},
+      {title:'סיכום',time:'1:35–1:40',steps:['"המתחרה הגרוע ביותר הוא מתחרה שלא הכרת"']},
+    ],note:'📊 הכינו גיליון השוואה מוכן. תלמידים ממלאים בזמן אמת'},
+
+
   },
 
   7: {
@@ -918,7 +951,12 @@ const LP = {
       {title:'Product Strategy',time:'0:00–0:30',steps:['Vision → Strategy → Roadmap → Execution','דוגמה: Spotify — "מוזיקה לכולם" → Podcast → Audiobooks','כל תלמיד מנסח: "ה-Vision של המוצר שלי"']},
       {title:'OKRs',time:'0:30–1:00',steps:['Objective: מה אנחנו רוצים להשיג?','Key Results: איך נדע שהגענו?','תרגיל: כל תלמיד כותב 1 OKR למוצר שלו']},
       {title:'Roadmap',time:'1:00–1:40',steps:['בניית 3-month roadmap','Phase 1: Build core | Phase 2: Grow | Phase 3: Scale','כלים: Notion, Linear, או פשוט Spreadsheet']},
-    ],note:'📦 Roadmap יכול להיות פשוט מאוד — גיליון אקסל עם עמודות עובד מצוין'}
+    ],note:'📦 Roadmap יכול להיות פשוט מאוד — גיליון אקסל עם עמודות עובד מצוין'},
+    biz: {title:'מערך שיעור — Business Model Canvas מלא',blocks:[
+      {title:'9 הבלוקים של BMC',time:'0:00–0:30',steps:['Value Proposition: מה הערך? למי?','Customer Segments: מי הלקוח?','Revenue Streams: מאיפה הכסף?','Cost Structure: מה עולה?','Channels + Partners + Activities + Resources + Relationships']},
+      {title:'מילוי BMC לרעיון',time:'0:30–1:10',steps:['כל תלמיד ממלא Canvas מלא','חבר בודק: "הגיוני? חסר משהו?"','מנחה עוזר לנתקעים ב-Revenue Streams']},
+      {title:'היתכנות כלכלית ראשונה',time:'1:10–1:40',steps:['חישוב פשוט: כמה לקוחות × כמה כסף = כמה הכנסה?','כמה עולה לייצר/למכור?','שאלה: "האם זה כדאי?"']},
+    ],note:'📊 הכינו תבנית BMC מודפסת + גרסה דיגיטלית ב-Canva'}
   },
 
   10: {
@@ -935,7 +973,7 @@ const LP = {
 function getLessonPlan(n, group) {
   if (!LP[n]) return null;
   if (LP[n].all) return LP[n].all;
-  const key = group==='ai' ? 'ai' : group==='3d' ? '3d' : group==='pm' ? 'pm' : 'sci';
+  const key = group==='ai' ? 'ai' : group==='3d' ? '3d' : group==='pm' ? 'pm' : group==='biz' ? 'biz' : 'sci';
   return LP[n][key] || LP[n].sci || null;
 }
 
@@ -946,7 +984,8 @@ const SESSIONS = [
    activities:['משחק הכרות "שני אמיתות ושקר"','סרטון השראה: יזמים ישראלים','דמו WOW לכל תחום','בחירת שם לכל קבוצה'],
    example:'🎬 מוצגים: Waze, Mobileye, Orbot — איך בני נוער יצרו חברות',
    tools:['Padlet','Google Slides'],group:'כולם',
-   domainNotes:{sci:'🔬 חקר: ניסוי בועות חיה',d3:'🖨️ תלת מימד: הדגמת הדפסה',ai:'🤖 AI: Claude מייצר שיר',pm:'📦 מוצר: Deconstruct אפליקציה'}},
+   domainNotes:{sci:'🔬 חקר: ניסוי בועות חיה',d3:'🖨️ תלת מימד: הדגמת הדפסה',ai:'🤖 AI: Claude מייצר שיר',pm:'📦 מוצר: Deconstruct אפליקציה',
+     biz:'💼 יזמות: מה המוצר שחלמת עליו? כתוב 3 רעיונות עסקיים'}},
 
   {n:2,phase:1,title:'טבילה ראשונה — כל קבוצה בעולם שלה',color:'#2563eb',bg:'#dbeafe',
    goals:['חשיפה ראשונה לכלים','הבנת "שפת" התחום','עירוי התלהבות ראשונית'],
@@ -957,7 +996,8 @@ const SESSIONS = [
      sci:'🔬 ניסוי pH עם כרוב אדום — הפתעה צבעונית!',
      d3:'🖨️ מדפסת רצה בזמן אמת, תלמידים רואים שכבה אחר שכבה',
      ai:'🤖 AI — שלב 1 רוחב: Claude + NotebookLM. תלמידים מגלים שAI כבר בחייהם',
-     pm:'📦 Deconstruct אפליקציה — מה הבעיה שפותרת Waze?'
+     pm:'📦 Deconstruct אפליקציה — מה הבעיה שפותרת Waze?',
+     biz:'💼 מה זה בכלל עסק? ניתוח עסקי של מוצר שאוהבים — כמה הוא מרוויח ולמה?'
    }},
 
   {n:3,phase:1,title:'לומדים את הכלים — ידיים בעניין',color:'#2563eb',bg:'#dbeafe',
@@ -969,7 +1009,8 @@ const SESSIONS = [
      sci:'🔬 כל תלמיד מבצע ניסוי עצמאי וממלא notebook מדעי',
      d3:'🖨️ עיצוב מחזיק מפתחות ב-Tinkercad + שליחה להדפסה',
      ai:'🤖 NotebookLM: כל תלמיד בוחר נושא שאוהב, מעלה מסמך ומאזין ל-Audio Overview. אחר כך Claude Code — בניית כלי ראשון',
-     pm:'📦 כתיבת User Stories ראשונות'
+     pm:'📦 כתיבת User Stories ראשונות',
+     biz:'💼 מיפוי שוק: בחרו קטגוריה ומצאו 5 מתחרים. מה כל אחד מוכר וב-כמה?'
    }},
 
   {n:4,phase:1,title:'מיני פרויקט — יצירה ראשונה 🏆',color:'#2563eb',bg:'#dbeafe',
@@ -981,7 +1022,8 @@ const SESSIONS = [
      sci:'🔬 הצגת שאלת מחקר + ממצאי ניסוי ראשון',
      d3:'🖨️ הצגת עיצוב + חלק מודפס בפועל',
      ai:'🤖 כל תלמיד מדגים כלי שבנה עם Claude Code. זה הרגע שהם מבינים שיכולים לבנות!',
-     pm:'📦 הצגת ניתוח מוצר + 3 שיפורים שהייתי עושה'
+     pm:'📦 הצגת ניתוח מוצר + 3 שיפורים שהייתי עושה',
+     biz:'💼 הצגת Business Idea ראשונה: בעיה + פתרון + לקוח + הכנסה אפשרית'
    }},
 
   {n:5,phase:1,title:'חשיפה הדדית — כל קבוצה מלמדת את השאר',color:'#2563eb',bg:'#dbeafe',
@@ -993,7 +1035,8 @@ const SESSIONS = [
      sci:'🔬 מציגים ניסוי פשוט שכולם יכולים לנסות',
      d3:'🖨️ מדפיסים בזמן אמת — כולם רואים',
      ai:'🤖 מדגימים NotebookLM + Claude Code — אי אפשר שלא להתלהב',
-     pm:'📦 מדגימים Deconstruct + User Story'
+     pm:'📦 מדגימים Deconstruct + User Story',
+     biz:'💼 מציגים Canvas עסקי בסיסי — כולם שואלים: איך מרוויחים?'
    }},
 
   {n:6,phase:1,title:'עומק ושיפור — גרסה שנייה',color:'#2563eb',bg:'#dbeafe',
@@ -1005,7 +1048,8 @@ const SESSIONS = [
      sci:'🔬 ניתוח נתונים עם Excel + Claude מנתח נתוני ניסוי',
      d3:'🖨️ גרסה 2 של העיצוב + היכרות עם Fusion 360',
      ai:'🤖 Claude Code מתקדם: Iteration Loop + שילוב NotebookLM עם Claude לפרויקט אחד',
-     pm:'📦 Competitive Analysis Matrix + Blue Ocean'
+     pm:'📦 Competitive Analysis Matrix + Blue Ocean',
+     biz:'💼 Competitive Analysis: מי המתחרים? מה החוזקות שלנו? SWOT פשוט'
    }},
 
   {n:7,phase:1,title:'אורח מהתעשייה — מומחה מהשטח',color:'#2563eb',bg:'#dbeafe',
@@ -1017,7 +1061,8 @@ const SESSIONS = [
      sci:'🔬 מדען/חוקר בחברה ביולוגית / מכון וייצמן',
      d3:'🖨️ מעצב תעשייתי שעובד עם הדפסת תלת מימד',
      ai:'🤖 מפתח AI / Prompt Engineer מחברת AI',
-     pm:'📦 Product Manager בסטארטאפ ישראלי'
+     pm:'📦 Product Manager בסטארטאפ ישראלי',
+     biz:'💼 אורח: יזם/ית שהקים/ה עסק מגיל צעיר — כמה עלה, כמה הרוויח'
    }},
 
   {n:8,phase:1,title:'בחירת התמחות — לאן הלב קורא? 🏆',color:'#2563eb',bg:'#dbeafe',
@@ -1026,7 +1071,8 @@ const SESSIONS = [
    example:'🗳️ אבן דרך 2: כל תלמיד בוחר ומכריז על תחום ההתמחות שלו',
    tools:['שאלון','שיחה'],group:'אישי',milestone:true,
    domainNotes:{
-     all:'💡 אין תחום "נכון" — כל בחירה היא תקפה. עזרו לתלמידים שמתלבטים לשאול: "מה ריגש אותי הכי הרבה?"'
+     all:'💡 אין תחום "נכון" — כל בחירה היא תקפה. עזרו לתלמידים שמתלבטים לשאול: "מה ריגש אותי הכי הרבה?"',
+     biz:'💼 תלמידים בוחרים: להיות היזם-הכלכלי של הצוות'
    }},
 
   // ── Phase 2 ──────────────────────────────────────────────────────────────
@@ -1039,7 +1085,8 @@ const SESSIONS = [
      sci:'🔬 בחירת שאלת מחקר מרכזית לשלב 2 + Research Design',
      d3:'🖨️ מבוא Fusion 360 + בחירת פרויקט עם מנגנון',
      ai:'🤖 Teachable Machine + מבוא ל-API. בניית מודל AI ראשוני',
-     pm:'📦 Product Strategy + OKRs + בניית Roadmap'
+     pm:'📦 Product Strategy + OKRs + בניית Roadmap',
+     biz:'💼 Business Model Canvas מלא + בחירת הרעיון העסקי לשלב 2'
    }},
 
   {n:10,phase:2,title:'צוותי חדשנות — מפגש ראשון 🤝',color:'#7c3aed',bg:'#ede9fe',
@@ -1057,7 +1104,8 @@ const SESSIONS = [
      sci:'🔬 Python בסיסי לניתוח נתונים + ויזואליזציה עם matplotlib',
      d3:'🖨️ עיצוב Assembly — חיבור שני חלקים שנעים',
      ai:'🤖 Teachable Machine: בניית מודל + שילוב ב-Claude Code',
-     pm:'📦 Metrics שמעניינים אותנו: DAU, Retention, NPS'
+     pm:'📦 Metrics שמעניינים אותנו: DAU, Retention, NPS',
+     biz:'💼 Financial modeling ראשוני: עלויות, הכנסות, Break Even — בגיליון Excel'
    }},
 
   {n:12,phase:2,title:'מחקר שוק — מי הלקוח?',color:'#7c3aed',bg:'#ede9fe',
@@ -1179,16 +1227,17 @@ const SESSIONS = [
 const phaseColors = {1:'#2563eb',2:'#7c3aed',3:'#db2777'};
 const phaseNames = {1:'שלב 1: גילוי',2:'שלב 2: התמחות',3:'שלב 3: פיתוח מוצר'};
 const DOMAINS = [
-  {key:'sci', label:'🔬 חקר מדעי', activeClass:'active-sci', color:'#2563eb'},
-  {key:'3d',  label:'🖨️ תלת מימד', activeClass:'active-3d',  color:'#7c3aed'},
-  {key:'ai',  label:'🤖 AI',        activeClass:'active-ai',  color:'#db2777'},
-  {key:'pm',  label:'📦 ניהול מוצר',activeClass:'active-pm',  color:'#ea580c'},
+  {key:'sci', label:'🔬 חקר מדעי',          instructor:'',          activeClass:'active-sci', color:'#2563eb'},
+  {key:'3d',  label:'🖨️ תלת מימד',           instructor:'ציליק',     activeClass:'active-3d',  color:'#7c3aed'},
+  {key:'ai',  label:'🤖 AI',                 instructor:'יהונתן',    activeClass:'active-ai',  color:'#db2777'},
+  {key:'pm',  label:'📦 פרודאקט מנג\'מנט',   instructor:'מוריה',     activeClass:'active-pm',  color:'#ea580c'},
+  {key:'biz', label:'💼 יזמות ועסקים',        instructor:'חירואי חן', activeClass:'active-biz', color:'#059669'},
 ];
 let activeDomain = 'ai';
 
 function domainTabsHtml() {
   return `<div class="domain-tabs" style="margin-bottom:16px;">
-    ${DOMAINS.map(d=>`<button class="domain-tab ${activeDomain===d.key?d.activeClass:''}" onclick="setDomain('${d.key}')">${d.label}</button>`).join('')}
+    ${DOMAINS.map(d=>`<button class="domain-tab ${activeDomain===d.key?d.activeClass:''}" onclick="setDomain('${d.key}')">${d.label}${d.instructor?`<span class="domain-instructor">${d.instructor}</span>`:''}</button>`).join('')}
   </div>`;
 }
 
