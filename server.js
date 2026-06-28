@@ -1,10 +1,12 @@
 const express = require('express');
 const Database = require('better-sqlite3');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = process.env.DATA_DIR || __dirname;
+if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 
 const db = new Database(path.join(DATA_DIR, 'progress.db'));
